@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_aatout" default="compile.module.aatout">
+  <dirname property="module.aatout.basedir" file="${ant.file.module_aatout}"/>
+  
+  <property name="module.jdk.home.aatout" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.aatout" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.aatout" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.aatout" value="-encoding UTF-8 -source 8 -target 1.8 ${compiler.args}"/>
+  
+  <property name="aatout.output.dir" value="${module.aatout.basedir}/target/classes"/>
+  <property name="aatout.testoutput.dir" value="${module.aatout.basedir}/target/test-classes"/>
+  
+  <path id="aatout.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="aatout.module.production.classpath">
+    <path refid="${module.jdk.classpath.aatout}"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-data-jpa:1.5.17.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter:1.5.17.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-logging:1.5.17.release.classpath"/>
+    <path refid="library.maven:_ch.qos.logback:logback-classic:1.1.11.classpath"/>
+    <path refid="library.maven:_ch.qos.logback:logback-core:1.1.11.classpath"/>
+    <path refid="library.maven:_org.slf4j:jul-to-slf4j:1.7.25.classpath"/>
+    <path refid="library.maven:_org.slf4j:log4j-over-slf4j:1.7.25.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-aop:1.5.17.release.classpath"/>
+    <path refid="library.maven:_org.aspectj:aspectjweaver:1.8.13.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-jdbc:1.5.17.release.classpath"/>
+    <path refid="library.maven:_org.apache.tomcat:tomcat-jdbc:8.5.34.classpath"/>
+    <path refid="library.maven:_org.apache.tomcat:tomcat-juli:8.5.34.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-jdbc:4.3.20.release.classpath"/>
+    <path refid="library.maven:_org.hibernate:hibernate-core:5.0.12.final.classpath"/>
+    <path refid="library.maven:_org.jboss.logging:jboss-logging:3.3.2.final.classpath"/>
+    <path refid="library.maven:_org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.final.classpath"/>
+    <path refid="library.maven:_org.javassist:javassist:3.21.0-ga.classpath"/>
+    <path refid="library.maven:_antlr:antlr:2.7.7.classpath"/>
+    <path refid="library.maven:_org.jboss:jandex:2.0.0.final.classpath"/>
+    <path refid="library.maven:_dom4j:dom4j:1.6.1.classpath"/>
+    <path refid="library.maven:_org.hibernate.common:hibernate-commons-annotations:5.0.1.final.classpath"/>
+    <path refid="library.maven:_org.hibernate:hibernate-entitymanager:5.0.12.final.classpath"/>
+    <path refid="library.maven:_javax.transaction:javax.transaction-api:1.2.classpath"/>
+    <path refid="library.maven:_org.springframework.data:spring-data-jpa:1.11.16.release.classpath"/>
+    <path refid="library.maven:_org.springframework.data:spring-data-commons:1.13.16.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-orm:4.3.20.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-tx:4.3.20.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-beans:4.3.20.release.classpath"/>
+    <path refid="library.maven:_org.slf4j:jcl-over-slf4j:1.7.25.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-aspects:4.3.20.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-web:1.5.17.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-tomcat:1.5.17.release.classpath"/>
+    <path refid="library.maven:_org.apache.tomcat.embed:tomcat-embed-core:8.5.34.classpath"/>
+    <path refid="library.maven:_org.apache.tomcat:tomcat-annotations-api:8.5.34.classpath"/>
+    <path refid="library.maven:_org.apache.tomcat.embed:tomcat-embed-el:8.5.34.classpath"/>
+    <path refid="library.maven:_org.apache.tomcat.embed:tomcat-embed-websocket:8.5.34.classpath"/>
+    <path refid="library.maven:_org.hibernate:hibernate-validator:5.3.6.final.classpath"/>
+    <path refid="library.maven:_javax.validation:validation-api:1.1.0.final.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-web:4.3.20.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-webmvc:4.3.20.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-expression:4.3.20.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot:1.5.17.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-autoconfigure:1.5.17.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-mail:1.5.17.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-context:4.3.20.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-context-support:4.3.20.release.classpath"/>
+    <path refid="library.maven:_com.sun.mail:javax.mail:1.5.6.classpath"/>
+    <path refid="library.maven:_com.twilio.sdk:twilio:7.20.0.classpath"/>
+    <path refid="library.maven:_joda-time:joda-time:2.9.9.classpath"/>
+    <path refid="library.maven:_org.apache.httpcomponents:httpclient:4.5.6.classpath"/>
+    <path refid="library.maven:_commons-codec:commons-codec:1.10.classpath"/>
+    <path refid="library.maven:_org.apache.httpcomponents:httpcore:4.4.10.classpath"/>
+    <path refid="library.maven:_org.springframework.security:spring-security-core:4.2.9.release.classpath"/>
+    <path refid="library.maven:_aopalliance:aopalliance:1.0.classpath"/>
+    <path refid="library.maven:_org.springframework.security:spring-security-web:4.2.9.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-core:4.3.20.release.classpath"/>
+    <path refid="library.maven:_io.jsonwebtoken:jjwt:0.9.0.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-security:1.5.17.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-aop:4.3.20.release.classpath"/>
+    <path refid="library.maven:_org.springframework.security:spring-security-config:4.2.9.release.classpath"/>
+    <path refid="library.maven:_io.springfox:springfox-swagger2:2.9.2.classpath"/>
+    <path refid="library.maven:_io.swagger:swagger-annotations:1.5.20.classpath"/>
+    <path refid="library.maven:_io.swagger:swagger-models:1.5.20.classpath"/>
+    <path refid="library.maven:_io.springfox:springfox-spi:2.9.2.classpath"/>
+    <path refid="library.maven:_io.springfox:springfox-core:2.9.2.classpath"/>
+    <path refid="library.maven:_net.bytebuddy:byte-buddy:1.8.12.classpath"/>
+    <path refid="library.maven:_io.springfox:springfox-schema:2.9.2.classpath"/>
+    <path refid="library.maven:_io.springfox:springfox-swagger-common:2.9.2.classpath"/>
+    <path refid="library.maven:_io.springfox:springfox-spring-web:2.9.2.classpath"/>
+    <path refid="library.maven:_com.fasterxml:classmate:1.3.4.classpath"/>
+    <path refid="library.maven:_org.slf4j:slf4j-api:1.7.25.classpath"/>
+    <path refid="library.maven:_org.springframework.plugin:spring-plugin-core:1.2.0.release.classpath"/>
+    <path refid="library.maven:_org.springframework.plugin:spring-plugin-metadata:1.2.0.release.classpath"/>
+    <path refid="library.maven:_org.mapstruct:mapstruct:1.2.0.final.classpath"/>
+    <path refid="library.maven:_io.springfox:springfox-swagger-ui:2.9.2.classpath"/>
+    <path refid="library.maven:_io.springfox:springfox-bean-validators:2.9.2.classpath"/>
+    <path refid="library.maven:_javax.xml.bind:jaxb-api:2.1.classpath"/>
+    <path refid="library.maven:_javax.xml.stream:stax-api:1.0-2.classpath"/>
+    <path refid="library.maven:_javax.activation:activation:1.1.classpath"/>
+    <path refid="library.maven:_commons-io:commons-io:2.4.classpath"/>
+    <path refid="library.maven:_javax.servlet:jstl:1.2.classpath"/>
+    <path refid="library.maven:_org.codehaus.groovy:groovy-all:2.4.15.classpath"/>
+    <path refid="library.maven:_com.itextpdf:itext-pdfa:5.5.0.classpath"/>
+    <path refid="library.maven:_com.itextpdf:itextpdf:5.5.0.classpath"/>
+    <path refid="library.maven:_net.sf.jasperreports:jasperreports:6.0.0.classpath"/>
+    <path refid="library.maven:_commons-beanutils:commons-beanutils:1.9.3.classpath"/>
+    <path refid="library.maven:_commons-collections:commons-collections:3.2.2.classpath"/>
+    <path refid="library.maven:_commons-digester:commons-digester:2.1.classpath"/>
+    <path refid="library.maven:_commons-logging:commons-logging:1.1.1.classpath"/>
+    <path refid="library.maven:_jfree:jcommon:1.0.15.classpath"/>
+    <path refid="library.maven:_jfree:jfreechart:1.0.12.classpath"/>
+    <path refid="library.maven:_xml-apis:xml-apis:1.4.01.classpath"/>
+    <path refid="library.maven:_org.eclipse.jdt.core.compiler:ecj:4.3.1.classpath"/>
+    <path refid="library.maven:_org.codehaus.castor:castor:1.2.classpath"/>
+    <path refid="library.maven:_org.apache.lucene:lucene-core:4.5.1.classpath"/>
+    <path refid="library.maven:_org.apache.lucene:lucene-analyzers-common:4.5.1.classpath"/>
+    <path refid="library.maven:_org.apache.lucene:lucene-queryparser:4.5.1.classpath"/>
+    <path refid="library.maven:_org.apache.lucene:lucene-queries:4.5.1.classpath"/>
+    <path refid="library.maven:_org.apache.lucene:lucene-sandbox:4.5.1.classpath"/>
+    <path refid="library.maven:_jakarta-regexp:jakarta-regexp:1.4.classpath"/>
+    <path refid="library.maven:_org.olap4j:olap4j:0.9.7.309-js-3.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-core:2.8.11.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-databind:2.8.11.2.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-annotations:2.8.0.classpath"/>
+    <path refid="library.maven:_com.google.guava:guava:20.0.classpath"/>
+  </path>
+  
+  <path id="aatout.runtime.production.module.classpath">
+    <pathelement location="${aatout.output.dir}"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-data-jpa:1.5.17.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter:1.5.17.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-logging:1.5.17.release.classpath"/>
+    <path refid="library.maven:_ch.qos.logback:logback-classic:1.1.11.classpath"/>
+    <path refid="library.maven:_ch.qos.logback:logback-core:1.1.11.classpath"/>
+    <path refid="library.maven:_org.slf4j:jul-to-slf4j:1.7.25.classpath"/>
+    <path refid="library.maven:_org.slf4j:log4j-over-slf4j:1.7.25.classpath"/>
+    <path refid="library.maven:_org.yaml:snakeyaml:1.17.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-aop:1.5.17.release.classpath"/>
+    <path refid="library.maven:_org.aspectj:aspectjweaver:1.8.13.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-jdbc:1.5.17.release.classpath"/>
+    <path refid="library.maven:_org.apache.tomcat:tomcat-jdbc:8.5.34.classpath"/>
+    <path refid="library.maven:_org.apache.tomcat:tomcat-juli:8.5.34.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-jdbc:4.3.20.release.classpath"/>
+    <path refid="library.maven:_org.hibernate:hibernate-core:5.0.12.final.classpath"/>
+    <path refid="library.maven:_org.jboss.logging:jboss-logging:3.3.2.final.classpath"/>
+    <path refid="library.maven:_org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.final.classpath"/>
+    <path refid="library.maven:_org.javassist:javassist:3.21.0-ga.classpath"/>
+    <path refid="library.maven:_antlr:antlr:2.7.7.classpath"/>
+    <path refid="library.maven:_org.jboss:jandex:2.0.0.final.classpath"/>
+    <path refid="library.maven:_dom4j:dom4j:1.6.1.classpath"/>
+    <path refid="library.maven:_org.hibernate.common:hibernate-commons-annotations:5.0.1.final.classpath"/>
+    <path refid="library.maven:_org.hibernate:hibernate-entitymanager:5.0.12.final.classpath"/>
+    <path refid="library.maven:_javax.transaction:javax.transaction-api:1.2.classpath"/>
+    <path refid="library.maven:_org.springframework.data:spring-data-jpa:1.11.16.release.classpath"/>
+    <path refid="library.maven:_org.springframework.data:spring-data-commons:1.13.16.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-orm:4.3.20.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-tx:4.3.20.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-beans:4.3.20.release.classpath"/>
+    <path refid="library.maven:_org.slf4j:jcl-over-slf4j:1.7.25.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-aspects:4.3.20.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-web:1.5.17.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-tomcat:1.5.17.release.classpath"/>
+    <path refid="library.maven:_org.apache.tomcat.embed:tomcat-embed-core:8.5.34.classpath"/>
+    <path refid="library.maven:_org.apache.tomcat:tomcat-annotations-api:8.5.34.classpath"/>
+    <path refid="library.maven:_org.apache.tomcat.embed:tomcat-embed-el:8.5.34.classpath"/>
+    <path refid="library.maven:_org.apache.tomcat.embed:tomcat-embed-websocket:8.5.34.classpath"/>
+    <path refid="library.maven:_org.hibernate:hibernate-validator:5.3.6.final.classpath"/>
+    <path refid="library.maven:_javax.validation:validation-api:1.1.0.final.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-web:4.3.20.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-webmvc:4.3.20.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-expression:4.3.20.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-devtools:1.5.17.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot:1.5.17.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-autoconfigure:1.5.17.release.classpath"/>
+    <path refid="library.maven:_mysql:mysql-connector-java:5.1.47.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-mail:1.5.17.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-context:4.3.20.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-context-support:4.3.20.release.classpath"/>
+    <path refid="library.maven:_com.sun.mail:javax.mail:1.5.6.classpath"/>
+    <path refid="library.maven:_com.twilio.sdk:twilio:7.20.0.classpath"/>
+    <path refid="library.maven:_joda-time:joda-time:2.9.9.classpath"/>
+    <path refid="library.maven:_org.apache.httpcomponents:httpclient:4.5.6.classpath"/>
+    <path refid="library.maven:_commons-codec:commons-codec:1.10.classpath"/>
+    <path refid="library.maven:_org.apache.httpcomponents:httpcore:4.4.10.classpath"/>
+    <path refid="library.maven:_org.springframework.security:spring-security-core:4.2.9.release.classpath"/>
+    <path refid="library.maven:_aopalliance:aopalliance:1.0.classpath"/>
+    <path refid="library.maven:_org.springframework.security:spring-security-web:4.2.9.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-core:4.3.20.release.classpath"/>
+    <path refid="library.maven:_io.jsonwebtoken:jjwt:0.9.0.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-security:1.5.17.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-aop:4.3.20.release.classpath"/>
+    <path refid="library.maven:_org.springframework.security:spring-security-config:4.2.9.release.classpath"/>
+    <path refid="library.maven:_org.postgresql:postgresql:9.4.1212.jre7.classpath"/>
+    <path refid="library.maven:_io.springfox:springfox-swagger2:2.9.2.classpath"/>
+    <path refid="library.maven:_io.swagger:swagger-annotations:1.5.20.classpath"/>
+    <path refid="library.maven:_io.swagger:swagger-models:1.5.20.classpath"/>
+    <path refid="library.maven:_io.springfox:springfox-spi:2.9.2.classpath"/>
+    <path refid="library.maven:_io.springfox:springfox-core:2.9.2.classpath"/>
+    <path refid="library.maven:_net.bytebuddy:byte-buddy:1.8.12.classpath"/>
+    <path refid="library.maven:_io.springfox:springfox-schema:2.9.2.classpath"/>
+    <path refid="library.maven:_io.springfox:springfox-swagger-common:2.9.2.classpath"/>
+    <path refid="library.maven:_io.springfox:springfox-spring-web:2.9.2.classpath"/>
+    <path refid="library.maven:_com.fasterxml:classmate:1.3.4.classpath"/>
+    <path refid="library.maven:_org.slf4j:slf4j-api:1.7.25.classpath"/>
+    <path refid="library.maven:_org.springframework.plugin:spring-plugin-core:1.2.0.release.classpath"/>
+    <path refid="library.maven:_org.springframework.plugin:spring-plugin-metadata:1.2.0.release.classpath"/>
+    <path refid="library.maven:_org.mapstruct:mapstruct:1.2.0.final.classpath"/>
+    <path refid="library.maven:_io.springfox:springfox-swagger-ui:2.9.2.classpath"/>
+    <path refid="library.maven:_io.springfox:springfox-bean-validators:2.9.2.classpath"/>
+    <path refid="library.maven:_javax.xml.bind:jaxb-api:2.1.classpath"/>
+    <path refid="library.maven:_javax.xml.stream:stax-api:1.0-2.classpath"/>
+    <path refid="library.maven:_javax.activation:activation:1.1.classpath"/>
+    <path refid="library.maven:_commons-io:commons-io:2.4.classpath"/>
+    <path refid="library.maven:_javax.servlet:jstl:1.2.classpath"/>
+    <path refid="library.maven:_org.codehaus.groovy:groovy-all:2.4.15.classpath"/>
+    <path refid="library.maven:_com.itextpdf:itext-pdfa:5.5.0.classpath"/>
+    <path refid="library.maven:_com.itextpdf:itextpdf:5.5.0.classpath"/>
+    <path refid="library.maven:_net.sf.jasperreports:jasperreports:6.0.0.classpath"/>
+    <path refid="library.maven:_commons-beanutils:commons-beanutils:1.9.3.classpath"/>
+    <path refid="library.maven:_commons-collections:commons-collections:3.2.2.classpath"/>
+    <path refid="library.maven:_commons-digester:commons-digester:2.1.classpath"/>
+    <path refid="library.maven:_commons-logging:commons-logging:1.1.1.classpath"/>
+    <path refid="library.maven:_jfree:jcommon:1.0.15.classpath"/>
+    <path refid="library.maven:_jfree:jfreechart:1.0.12.classpath"/>
+    <path refid="library.maven:_xml-apis:xml-apis:1.4.01.classpath"/>
+    <path refid="library.maven:_org.eclipse.jdt.core.compiler:ecj:4.3.1.classpath"/>
+    <path refid="library.maven:_org.codehaus.castor:castor:1.2.classpath"/>
+    <path refid="library.maven:_org.apache.lucene:lucene-core:4.5.1.classpath"/>
+    <path refid="library.maven:_org.apache.lucene:lucene-analyzers-common:4.5.1.classpath"/>
+    <path refid="library.maven:_org.apache.lucene:lucene-queryparser:4.5.1.classpath"/>
+    <path refid="library.maven:_org.apache.lucene:lucene-queries:4.5.1.classpath"/>
+    <path refid="library.maven:_org.apache.lucene:lucene-sandbox:4.5.1.classpath"/>
+    <path refid="library.maven:_jakarta-regexp:jakarta-regexp:1.4.classpath"/>
+    <path refid="library.maven:_org.olap4j:olap4j:0.9.7.309-js-3.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-core:2.8.11.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-databind:2.8.11.2.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-annotations:2.8.0.classpath"/>
+    <path refid="library.maven:_com.google.guava:guava:20.0.classpath"/>
+  </path>
+  
+  <path id="aatout.module.classpath">
+    <path refid="${module.jdk.classpath.aatout}"/>
+    <pathelement location="${aatout.output.dir}"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-data-jpa:1.5.17.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter:1.5.17.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-logging:1.5.17.release.classpath"/>
+    <path refid="library.maven:_ch.qos.logback:logback-classic:1.1.11.classpath"/>
+    <path refid="library.maven:_ch.qos.logback:logback-core:1.1.11.classpath"/>
+    <path refid="library.maven:_org.slf4j:jul-to-slf4j:1.7.25.classpath"/>
+    <path refid="library.maven:_org.slf4j:log4j-over-slf4j:1.7.25.classpath"/>
+    <path refid="library.maven:_org.yaml:snakeyaml:1.17.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-aop:1.5.17.release.classpath"/>
+    <path refid="library.maven:_org.aspectj:aspectjweaver:1.8.13.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-jdbc:1.5.17.release.classpath"/>
+    <path refid="library.maven:_org.apache.tomcat:tomcat-jdbc:8.5.34.classpath"/>
+    <path refid="library.maven:_org.apache.tomcat:tomcat-juli:8.5.34.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-jdbc:4.3.20.release.classpath"/>
+    <path refid="library.maven:_org.hibernate:hibernate-core:5.0.12.final.classpath"/>
+    <path refid="library.maven:_org.jboss.logging:jboss-logging:3.3.2.final.classpath"/>
+    <path refid="library.maven:_org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.final.classpath"/>
+    <path refid="library.maven:_org.javassist:javassist:3.21.0-ga.classpath"/>
+    <path refid="library.maven:_antlr:antlr:2.7.7.classpath"/>
+    <path refid="library.maven:_org.jboss:jandex:2.0.0.final.classpath"/>
+    <path refid="library.maven:_dom4j:dom4j:1.6.1.classpath"/>
+    <path refid="library.maven:_org.hibernate.common:hibernate-commons-annotations:5.0.1.final.classpath"/>
+    <path refid="library.maven:_org.hibernate:hibernate-entitymanager:5.0.12.final.classpath"/>
+    <path refid="library.maven:_javax.transaction:javax.transaction-api:1.2.classpath"/>
+    <path refid="library.maven:_org.springframework.data:spring-data-jpa:1.11.16.release.classpath"/>
+    <path refid="library.maven:_org.springframework.data:spring-data-commons:1.13.16.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-orm:4.3.20.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-tx:4.3.20.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-beans:4.3.20.release.classpath"/>
+    <path refid="library.maven:_org.slf4j:jcl-over-slf4j:1.7.25.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-aspects:4.3.20.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-web:1.5.17.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-tomcat:1.5.17.release.classpath"/>
+    <path refid="library.maven:_org.apache.tomcat.embed:tomcat-embed-core:8.5.34.classpath"/>
+    <path refid="library.maven:_org.apache.tomcat:tomcat-annotations-api:8.5.34.classpath"/>
+    <path refid="library.maven:_org.apache.tomcat.embed:tomcat-embed-el:8.5.34.classpath"/>
+    <path refid="library.maven:_org.apache.tomcat.embed:tomcat-embed-websocket:8.5.34.classpath"/>
+    <path refid="library.maven:_org.hibernate:hibernate-validator:5.3.6.final.classpath"/>
+    <path refid="library.maven:_javax.validation:validation-api:1.1.0.final.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-web:4.3.20.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-webmvc:4.3.20.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-expression:4.3.20.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-devtools:1.5.17.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot:1.5.17.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-autoconfigure:1.5.17.release.classpath"/>
+    <path refid="library.maven:_mysql:mysql-connector-java:5.1.47.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-mail:1.5.17.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-context:4.3.20.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-context-support:4.3.20.release.classpath"/>
+    <path refid="library.maven:_com.sun.mail:javax.mail:1.5.6.classpath"/>
+    <path refid="library.maven:_com.twilio.sdk:twilio:7.20.0.classpath"/>
+    <path refid="library.maven:_joda-time:joda-time:2.9.9.classpath"/>
+    <path refid="library.maven:_org.apache.httpcomponents:httpclient:4.5.6.classpath"/>
+    <path refid="library.maven:_commons-codec:commons-codec:1.10.classpath"/>
+    <path refid="library.maven:_org.apache.httpcomponents:httpcore:4.4.10.classpath"/>
+    <path refid="library.maven:_org.springframework.security:spring-security-test:4.2.9.release.classpath"/>
+    <path refid="library.maven:_org.springframework.security:spring-security-core:4.2.9.release.classpath"/>
+    <path refid="library.maven:_aopalliance:aopalliance:1.0.classpath"/>
+    <path refid="library.maven:_org.springframework.security:spring-security-web:4.2.9.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-core:4.3.20.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-test:4.3.20.release.classpath"/>
+    <path refid="library.maven:_io.jsonwebtoken:jjwt:0.9.0.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-security:1.5.17.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-aop:4.3.20.release.classpath"/>
+    <path refid="library.maven:_org.springframework.security:spring-security-config:4.2.9.release.classpath"/>
+    <path refid="library.maven:_org.postgresql:postgresql:9.4.1212.jre7.classpath"/>
+    <path refid="library.maven:_io.springfox:springfox-swagger2:2.9.2.classpath"/>
+    <path refid="library.maven:_io.swagger:swagger-annotations:1.5.20.classpath"/>
+    <path refid="library.maven:_io.swagger:swagger-models:1.5.20.classpath"/>
+    <path refid="library.maven:_io.springfox:springfox-spi:2.9.2.classpath"/>
+    <path refid="library.maven:_io.springfox:springfox-core:2.9.2.classpath"/>
+    <path refid="library.maven:_net.bytebuddy:byte-buddy:1.8.12.classpath"/>
+    <path refid="library.maven:_io.springfox:springfox-schema:2.9.2.classpath"/>
+    <path refid="library.maven:_io.springfox:springfox-swagger-common:2.9.2.classpath"/>
+    <path refid="library.maven:_io.springfox:springfox-spring-web:2.9.2.classpath"/>
+    <path refid="library.maven:_com.fasterxml:classmate:1.3.4.classpath"/>
+    <path refid="library.maven:_org.slf4j:slf4j-api:1.7.25.classpath"/>
+    <path refid="library.maven:_org.springframework.plugin:spring-plugin-core:1.2.0.release.classpath"/>
+    <path refid="library.maven:_org.springframework.plugin:spring-plugin-metadata:1.2.0.release.classpath"/>
+    <path refid="library.maven:_org.mapstruct:mapstruct:1.2.0.final.classpath"/>
+    <path refid="library.maven:_io.springfox:springfox-swagger-ui:2.9.2.classpath"/>
+    <path refid="library.maven:_io.springfox:springfox-bean-validators:2.9.2.classpath"/>
+    <path refid="library.maven:_javax.xml.bind:jaxb-api:2.1.classpath"/>
+    <path refid="library.maven:_javax.xml.stream:stax-api:1.0-2.classpath"/>
+    <path refid="library.maven:_javax.activation:activation:1.1.classpath"/>
+    <path refid="library.maven:_commons-io:commons-io:2.4.classpath"/>
+    <path refid="library.maven:_javax.servlet:jstl:1.2.classpath"/>
+    <path refid="library.maven:_org.codehaus.groovy:groovy-all:2.4.15.classpath"/>
+    <path refid="library.maven:_com.itextpdf:itext-pdfa:5.5.0.classpath"/>
+    <path refid="library.maven:_com.itextpdf:itextpdf:5.5.0.classpath"/>
+    <path refid="library.maven:_net.sf.jasperreports:jasperreports:6.0.0.classpath"/>
+    <path refid="library.maven:_commons-beanutils:commons-beanutils:1.9.3.classpath"/>
+    <path refid="library.maven:_commons-collections:commons-collections:3.2.2.classpath"/>
+    <path refid="library.maven:_commons-digester:commons-digester:2.1.classpath"/>
+    <path refid="library.maven:_commons-logging:commons-logging:1.1.1.classpath"/>
+    <path refid="library.maven:_jfree:jcommon:1.0.15.classpath"/>
+    <path refid="library.maven:_jfree:jfreechart:1.0.12.classpath"/>
+    <path refid="library.maven:_xml-apis:xml-apis:1.4.01.classpath"/>
+    <path refid="library.maven:_org.eclipse.jdt.core.compiler:ecj:4.3.1.classpath"/>
+    <path refid="library.maven:_org.codehaus.castor:castor:1.2.classpath"/>
+    <path refid="library.maven:_org.apache.lucene:lucene-core:4.5.1.classpath"/>
+    <path refid="library.maven:_org.apache.lucene:lucene-analyzers-common:4.5.1.classpath"/>
+    <path refid="library.maven:_org.apache.lucene:lucene-queryparser:4.5.1.classpath"/>
+    <path refid="library.maven:_org.apache.lucene:lucene-queries:4.5.1.classpath"/>
+    <path refid="library.maven:_org.apache.lucene:lucene-sandbox:4.5.1.classpath"/>
+    <path refid="library.maven:_jakarta-regexp:jakarta-regexp:1.4.classpath"/>
+    <path refid="library.maven:_org.olap4j:olap4j:0.9.7.309-js-3.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-core:2.8.11.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-databind:2.8.11.2.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-annotations:2.8.0.classpath"/>
+    <path refid="library.maven:_com.google.guava:guava:20.0.classpath"/>
+  </path>
+  
+  <path id="aatout.runtime.module.classpath">
+    <pathelement location="${aatout.testoutput.dir}"/>
+    <pathelement location="${aatout.output.dir}"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-data-jpa:1.5.17.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter:1.5.17.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-logging:1.5.17.release.classpath"/>
+    <path refid="library.maven:_ch.qos.logback:logback-classic:1.1.11.classpath"/>
+    <path refid="library.maven:_ch.qos.logback:logback-core:1.1.11.classpath"/>
+    <path refid="library.maven:_org.slf4j:jul-to-slf4j:1.7.25.classpath"/>
+    <path refid="library.maven:_org.slf4j:log4j-over-slf4j:1.7.25.classpath"/>
+    <path refid="library.maven:_org.yaml:snakeyaml:1.17.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-aop:1.5.17.release.classpath"/>
+    <path refid="library.maven:_org.aspectj:aspectjweaver:1.8.13.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-jdbc:1.5.17.release.classpath"/>
+    <path refid="library.maven:_org.apache.tomcat:tomcat-jdbc:8.5.34.classpath"/>
+    <path refid="library.maven:_org.apache.tomcat:tomcat-juli:8.5.34.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-jdbc:4.3.20.release.classpath"/>
+    <path refid="library.maven:_org.hibernate:hibernate-core:5.0.12.final.classpath"/>
+    <path refid="library.maven:_org.jboss.logging:jboss-logging:3.3.2.final.classpath"/>
+    <path refid="library.maven:_org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.final.classpath"/>
+    <path refid="library.maven:_org.javassist:javassist:3.21.0-ga.classpath"/>
+    <path refid="library.maven:_antlr:antlr:2.7.7.classpath"/>
+    <path refid="library.maven:_org.jboss:jandex:2.0.0.final.classpath"/>
+    <path refid="library.maven:_dom4j:dom4j:1.6.1.classpath"/>
+    <path refid="library.maven:_org.hibernate.common:hibernate-commons-annotations:5.0.1.final.classpath"/>
+    <path refid="library.maven:_org.hibernate:hibernate-entitymanager:5.0.12.final.classpath"/>
+    <path refid="library.maven:_javax.transaction:javax.transaction-api:1.2.classpath"/>
+    <path refid="library.maven:_org.springframework.data:spring-data-jpa:1.11.16.release.classpath"/>
+    <path refid="library.maven:_org.springframework.data:spring-data-commons:1.13.16.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-orm:4.3.20.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-tx:4.3.20.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-beans:4.3.20.release.classpath"/>
+    <path refid="library.maven:_org.slf4j:jcl-over-slf4j:1.7.25.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-aspects:4.3.20.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-web:1.5.17.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-tomcat:1.5.17.release.classpath"/>
+    <path refid="library.maven:_org.apache.tomcat.embed:tomcat-embed-core:8.5.34.classpath"/>
+    <path refid="library.maven:_org.apache.tomcat:tomcat-annotations-api:8.5.34.classpath"/>
+    <path refid="library.maven:_org.apache.tomcat.embed:tomcat-embed-el:8.5.34.classpath"/>
+    <path refid="library.maven:_org.apache.tomcat.embed:tomcat-embed-websocket:8.5.34.classpath"/>
+    <path refid="library.maven:_org.hibernate:hibernate-validator:5.3.6.final.classpath"/>
+    <path refid="library.maven:_javax.validation:validation-api:1.1.0.final.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-web:4.3.20.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-webmvc:4.3.20.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-expression:4.3.20.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-devtools:1.5.17.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot:1.5.17.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-autoconfigure:1.5.17.release.classpath"/>
+    <path refid="library.maven:_mysql:mysql-connector-java:5.1.47.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-mail:1.5.17.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-context:4.3.20.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-context-support:4.3.20.release.classpath"/>
+    <path refid="library.maven:_com.sun.mail:javax.mail:1.5.6.classpath"/>
+    <path refid="library.maven:_com.twilio.sdk:twilio:7.20.0.classpath"/>
+    <path refid="library.maven:_joda-time:joda-time:2.9.9.classpath"/>
+    <path refid="library.maven:_org.apache.httpcomponents:httpclient:4.5.6.classpath"/>
+    <path refid="library.maven:_commons-codec:commons-codec:1.10.classpath"/>
+    <path refid="library.maven:_org.apache.httpcomponents:httpcore:4.4.10.classpath"/>
+    <path refid="library.maven:_org.springframework.security:spring-security-test:4.2.9.release.classpath"/>
+    <path refid="library.maven:_org.springframework.security:spring-security-core:4.2.9.release.classpath"/>
+    <path refid="library.maven:_aopalliance:aopalliance:1.0.classpath"/>
+    <path refid="library.maven:_org.springframework.security:spring-security-web:4.2.9.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-core:4.3.20.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-test:4.3.20.release.classpath"/>
+    <path refid="library.maven:_io.jsonwebtoken:jjwt:0.9.0.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-security:1.5.17.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-aop:4.3.20.release.classpath"/>
+    <path refid="library.maven:_org.springframework.security:spring-security-config:4.2.9.release.classpath"/>
+    <path refid="library.maven:_org.postgresql:postgresql:9.4.1212.jre7.classpath"/>
+    <path refid="library.maven:_io.springfox:springfox-swagger2:2.9.2.classpath"/>
+    <path refid="library.maven:_io.swagger:swagger-annotations:1.5.20.classpath"/>
+    <path refid="library.maven:_io.swagger:swagger-models:1.5.20.classpath"/>
+    <path refid="library.maven:_io.springfox:springfox-spi:2.9.2.classpath"/>
+    <path refid="library.maven:_io.springfox:springfox-core:2.9.2.classpath"/>
+    <path refid="library.maven:_net.bytebuddy:byte-buddy:1.8.12.classpath"/>
+    <path refid="library.maven:_io.springfox:springfox-schema:2.9.2.classpath"/>
+    <path refid="library.maven:_io.springfox:springfox-swagger-common:2.9.2.classpath"/>
+    <path refid="library.maven:_io.springfox:springfox-spring-web:2.9.2.classpath"/>
+    <path refid="library.maven:_com.fasterxml:classmate:1.3.4.classpath"/>
+    <path refid="library.maven:_org.slf4j:slf4j-api:1.7.25.classpath"/>
+    <path refid="library.maven:_org.springframework.plugin:spring-plugin-core:1.2.0.release.classpath"/>
+    <path refid="library.maven:_org.springframework.plugin:spring-plugin-metadata:1.2.0.release.classpath"/>
+    <path refid="library.maven:_org.mapstruct:mapstruct:1.2.0.final.classpath"/>
+    <path refid="library.maven:_io.springfox:springfox-swagger-ui:2.9.2.classpath"/>
+    <path refid="library.maven:_io.springfox:springfox-bean-validators:2.9.2.classpath"/>
+    <path refid="library.maven:_javax.xml.bind:jaxb-api:2.1.classpath"/>
+    <path refid="library.maven:_javax.xml.stream:stax-api:1.0-2.classpath"/>
+    <path refid="library.maven:_javax.activation:activation:1.1.classpath"/>
+    <path refid="library.maven:_commons-io:commons-io:2.4.classpath"/>
+    <path refid="library.maven:_javax.servlet:jstl:1.2.classpath"/>
+    <path refid="library.maven:_org.codehaus.groovy:groovy-all:2.4.15.classpath"/>
+    <path refid="library.maven:_com.itextpdf:itext-pdfa:5.5.0.classpath"/>
+    <path refid="library.maven:_com.itextpdf:itextpdf:5.5.0.classpath"/>
+    <path refid="library.maven:_net.sf.jasperreports:jasperreports:6.0.0.classpath"/>
+    <path refid="library.maven:_commons-beanutils:commons-beanutils:1.9.3.classpath"/>
+    <path refid="library.maven:_commons-collections:commons-collections:3.2.2.classpath"/>
+    <path refid="library.maven:_commons-digester:commons-digester:2.1.classpath"/>
+    <path refid="library.maven:_commons-logging:commons-logging:1.1.1.classpath"/>
+    <path refid="library.maven:_jfree:jcommon:1.0.15.classpath"/>
+    <path refid="library.maven:_jfree:jfreechart:1.0.12.classpath"/>
+    <path refid="library.maven:_xml-apis:xml-apis:1.4.01.classpath"/>
+    <path refid="library.maven:_org.eclipse.jdt.core.compiler:ecj:4.3.1.classpath"/>
+    <path refid="library.maven:_org.codehaus.castor:castor:1.2.classpath"/>
+    <path refid="library.maven:_org.apache.lucene:lucene-core:4.5.1.classpath"/>
+    <path refid="library.maven:_org.apache.lucene:lucene-analyzers-common:4.5.1.classpath"/>
+    <path refid="library.maven:_org.apache.lucene:lucene-queryparser:4.5.1.classpath"/>
+    <path refid="library.maven:_org.apache.lucene:lucene-queries:4.5.1.classpath"/>
+    <path refid="library.maven:_org.apache.lucene:lucene-sandbox:4.5.1.classpath"/>
+    <path refid="library.maven:_jakarta-regexp:jakarta-regexp:1.4.classpath"/>
+    <path refid="library.maven:_org.olap4j:olap4j:0.9.7.309-js-3.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-core:2.8.11.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-databind:2.8.11.2.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-annotations:2.8.0.classpath"/>
+    <path refid="library.maven:_com.google.guava:guava:20.0.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.aatout">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.aatout">
+    <patternset refid="excluded.from.module.aatout"/>
+  </patternset>
+  
+  <path id="aatout.module.sourcepath">
+    <dirset dir="${module.aatout.basedir}">
+      <include name="src/main/java"/>
+      <include name="src/main/resources"/>
+    </dirset>
+  </path>
+  
+  <path id="aatout.module.test.sourcepath">
+    <dirset dir="${module.aatout.basedir}">
+      <include name="src/test/java"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.aatout" depends="compile.module.aatout.production,compile.module.aatout.tests" description="Compile module aatout"/>
+  
+  <target name="compile.module.aatout.production" depends="register.custom.compilers" description="Compile module aatout; production classes">
+    <mkdir dir="${aatout.output.dir}"/>
+    <javac2 destdir="${aatout.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.aatout}/javac">
+      <compilerarg line="${compiler.args.aatout}"/>
+      <bootclasspath refid="aatout.module.bootclasspath"/>
+      <classpath refid="aatout.module.production.classpath"/>
+      <src refid="aatout.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.aatout"/>
+    </javac2>
+    
+    <copy todir="${aatout.output.dir}">
+      <fileset dir="${module.aatout.basedir}/src/main/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.aatout.basedir}/src/main/resources">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.aatout.tests" depends="register.custom.compilers,compile.module.aatout.production" description="compile module aatout; test classes" unless="skip.tests">
+    <mkdir dir="${aatout.testoutput.dir}"/>
+    <javac2 destdir="${aatout.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.aatout}/javac">
+      <compilerarg line="${compiler.args.aatout}"/>
+      <bootclasspath refid="aatout.module.bootclasspath"/>
+      <classpath refid="aatout.module.classpath"/>
+      <src refid="aatout.module.test.sourcepath"/>
+      <patternset refid="excluded.from.compilation.aatout"/>
+    </javac2>
+    
+    <copy todir="${aatout.testoutput.dir}">
+      <fileset dir="${module.aatout.basedir}/src/test/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="clean.module.aatout" description="cleanup module">
+    <delete dir="${aatout.output.dir}"/>
+    <delete dir="${aatout.testoutput.dir}"/>
+  </target>
+</project>
