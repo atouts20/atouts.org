@@ -260,6 +260,41 @@ public class OperationRestController {
 
 		return true;
 	}
+	@PostMapping(value="/save-operation-vire-user")
+	@Transactional
+	public OperationForm saveOperationUser(@RequestBody OperationForm operationForm){
+		
+		//Random rcd = new Random();
+		Long idMax =  operationRepository.getMax();
+		
+		System.out.println(idMax); 
+		
+		Operation operation =  operationRepository.findBySuprIsFalseAndId(idMax);
+		
+		Long badge = 0L;
+		
+		if (operation == null ) {
+			badge = 1001L;
+		}else {
+			badge = operation.getBadge() + 1;
+		}
+		
+		
+		try{ 
+			
+			if (operationForm.getType().equals("VIRE")){
+				operationService.virementUser(operationForm.getNumCompte(), operationForm.getNumCompte2(), operationForm.getMontantOp(),  operationForm.getNarrative(), operationForm.getBadge(), operationForm.getCreateBy(), operationForm.getAutorisedBy());
+			}
+		} catch(Exception e) {
+			//model.addAttribute("error", e);
+			/*return "redirect:/consulterCompte?operationForm.getNumCompte()="+operationForm.getNumCompte()+
+					"&error="+e.getMessage();*/
+			return null;
+		}
+		
+		/*return "redirect:/consulterCompte?operationForm.getNumCompte()="+operationForm.getNumCompte();*/
+		return operationForm;
+	}
 	
 	@PostMapping(value="/save-operation")
 	@Transactional

@@ -10,8 +10,10 @@ public interface OperationService {
 	public void verser(String numCompte, double montant, double balance, String narrative, Long badge, String createBy, String autorisedBy);
 	public void retirer(String numCompte, double montant, double balance, String narrative, Long badge, String createBy, String autorisedBy);
 	public void virement(String numCompte1, String numCompte2, double montant, String narrative, Long badge, String createBy, String autorisedBy);
+	public void virementUser(String numCompte1, String numCompte2, double montant, String narrative, Long badge, String createBy, String autorisedBy);
+	
 	public void virementTroisCompte(String numCompte1, String numCompte2, String numCompteProduitInteret, double montant, double frais, String narrative, Long badge, String createBy, String autorisedBy);
-
+	
 	
 	public void verserEn(String numCompte, String numCompteSysteme, double montant, Long badge, String narrative, String createBy);
 	public void retirerEn(String numCompte, String numCompteSysteme, double montant, Long badge, String narrative,String createBy);

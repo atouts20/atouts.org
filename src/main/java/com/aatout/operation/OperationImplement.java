@@ -301,6 +301,20 @@ public class OperationImplement implements OperationService {
 	
 		  cal.add(Calendar.MINUTE, minute);
 		  return cal.getTime();
+	}
+
+	@Override
+	public void virementUser(String numCompte1, String numCompte2, double montant, String narrative, Long badge,
+			String createBy, String autorisedBy) {
+		Double montantTotal = montant * 1.015;
+		Double montantCom = montantTotal - montant;
+		if(numCompte1.equals(numCompte2)){
+			throw new RuntimeException("Impossibile de faire un virement sur le même compte");
+		}
+		retirer(numCompte1, montantTotal, montant, narrative, badge, createBy, autorisedBy);
+		verser(numCompte2, montant, montant,narrative, badge, createBy, autorisedBy);
+		verser("760000", montantCom, montant,narrative, badge, createBy, autorisedBy);
+		
 	}	
 	
 	
