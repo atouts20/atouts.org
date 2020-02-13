@@ -38,7 +38,6 @@ public class AatoutApplication extends SpringBootServletInitializer implements C
 	@Resource
 	StorageService storageService;   
 	
-	
 	@Autowired
 	private AccountService accountService;
 	

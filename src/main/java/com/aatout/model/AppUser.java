@@ -21,6 +21,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.hibernate.validator.constraints.Email;
+
 import com.aatout.modelBase.EntityBaseBean;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -57,7 +59,7 @@ public class AppUser extends EntityBaseBean implements Serializable {
 	private String photo;
 
 	@Column(unique=true)
-	
+	@Email
 	private String email;
 
 	//private String profession ;
@@ -87,7 +89,7 @@ public class AppUser extends EntityBaseBean implements Serializable {
 
 	private Date dateEmission;
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date dateExpiration;
 
 	private String nomPere;
@@ -137,14 +139,19 @@ public class AppUser extends EntityBaseBean implements Serializable {
 	private Date expiryDate;
 	
 	private boolean accountNonLocked = true;
-
-
+	
+	@Column(nullable = true)
+	private boolean adminstratif = false;
+	
 	@ManyToMany(fetch=FetchType.EAGER)	
 	private Collection<AppRole> roles = new ArrayList<>();
 
 
 	@OneToMany(mappedBy="appUserCompte")
 	private List<Compte> comptes= new ArrayList<>();
+	
+	@OneToMany(mappedBy="appUserBloquer")
+	private List<Bloquer> bloquers= new ArrayList<>();
 	
 	@OneToMany(mappedBy="appUserSousCompte")
 	private List<SousCompte> sousComptes = new ArrayList<>();
@@ -361,6 +368,7 @@ public class AppUser extends EntityBaseBean implements Serializable {
 	}
 
 	public void setDateExpiration(Date dateExpiration) {
+		
 		this.dateExpiration = dateExpiration;
 	}
 
@@ -539,9 +547,20 @@ public class AppUser extends EntityBaseBean implements Serializable {
 
 	public void setAccountNonLocked(boolean accountNonLocked) {
 		this.accountNonLocked = accountNonLocked;
+	}	
+	
+
+	public boolean isAdminstratif() {
+		return adminstratif;
 	}
-	
-	
+
+
+
+	public void setAdminstratif(boolean adminstratif) {
+		this.adminstratif = adminstratif;
+	}
+
+
 
 	public String getPhoto() {
 		return photo;
@@ -567,6 +586,21 @@ public class AppUser extends EntityBaseBean implements Serializable {
 		this.signature = signature;
 	}
 	
+	
+	@JsonIgnore
+    @XmlTransient
+	public List<Bloquer> getBloquers() {
+		return bloquers;
+	}
+
+
+
+	public void setBloquers(List<Bloquer> bloquers) {
+		this.bloquers = bloquers;
+	}
+
+
+
 	@JsonIgnore
     @XmlTransient
 	public List<SousCompte> getSousComptes() {
@@ -598,11 +632,6 @@ public class AppUser extends EntityBaseBean implements Serializable {
 				+ ", active=" + active + ", supprime=" + supprime + ", confirmationToken=" + confirmationToken
 				+ ", accountNonLocked=" + accountNonLocked + "]";
 	}
-
-
-
-	
-	
 	
 
 		

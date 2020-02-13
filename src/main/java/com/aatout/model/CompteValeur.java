@@ -23,9 +23,6 @@ public class CompteValeur extends Compte implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	@Column(name="CODE_PIN")
-	private Long pin;
-	
 	@OneToMany(mappedBy="compteValeurs")
 	private List<Bon> bons = new ArrayList<>();
 
@@ -40,18 +37,18 @@ public class CompteValeur extends Compte implements Serializable{
 		this.bons = bons;
 	}
 
-	public Long getPin() {
+	/*public Long getPin() {
 		return pin;
 	}
 
 	public void setPin(Long pin) {
 		this.pin = pin;
-	}
+	}*/
 
 	public CompteValeur() {
 		// TODO Auto-generated constructor stub
 	}
-
+	
 	public CompteValeur(String numCompte, Double solde, Double provision, String type) {
 		super(numCompte, solde, provision, type);
 		// TODO Auto-generated constructor stub

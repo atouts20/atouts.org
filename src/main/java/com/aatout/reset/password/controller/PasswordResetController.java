@@ -19,7 +19,7 @@ import com.aatout.reset.password.reposotory.PasswordResetTokenRepository;
 import javax.validation.Valid;
 
 @Controller 
-@RequestMapping("/reset-password")
+@RequestMapping("reset-password")
 @PreAuthorize("permitAll")
 public class PasswordResetController {
 	@Autowired

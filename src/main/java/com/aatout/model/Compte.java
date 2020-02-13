@@ -54,6 +54,9 @@ public abstract class Compte extends EntityBaseBean implements Serializable{
 	
 	private String codePays;
 	
+	@Column(name="CODE_PIN", unique=true)
+	private String pin;
+	
 	//@Min(value = 0L, message = "The value must be positive")
 	private Double solde = 0.0; 
 	
@@ -210,6 +213,15 @@ public abstract class Compte extends EntityBaseBean implements Serializable{
 
 	public void setMonNum(Long monNum) {
 		this.monNum = monNum;
+	}
+	
+
+	public String getPin() {
+		return pin;
+	}
+
+	public void setPin(String pin) {
+		this.pin = pin;
 	}
 
 	public Compte(String numCompte, Double solde, Boolean fermer, Boolean active, Boolean aatout, Double provision,

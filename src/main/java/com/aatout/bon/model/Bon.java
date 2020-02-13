@@ -39,7 +39,7 @@ public class Bon extends EntityBaseBean implements Serializable {
 	private String description;
 	
 	@Column(unique=true)
-	private Long secret;
+	private String secret;
 
 	private boolean encaisse = false;
 
@@ -131,11 +131,11 @@ public class Bon extends EntityBaseBean implements Serializable {
 		this.suprUser = suprUser;
 	}
 
-	public Long getSecret() {
+	public String getSecret() {
 		return secret;
 	}
 
-	public void setSecret(long secret) {
+	public void setSecret(String secret) {
 		this.secret = secret;
 	}
 

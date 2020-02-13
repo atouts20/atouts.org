@@ -27,12 +27,15 @@ import com.aatout.model.EmissionBon;
 import com.aatout.model.EncaisseBon;
 import com.aatout.model.LiquidationBon;
 import com.aatout.operation.OperationService;
+import com.aatout.random.RandomCodeService;
 
 @RestController
 @CrossOrigin("*")
 @RequestMapping(value="/bon")
 @Transactional
 public class BonRestController {
+	@Autowired
+	private RandomCodeService randomService; 
 	@Autowired
 	private BonDao bonDao;
 	
@@ -117,13 +120,13 @@ public class BonRestController {
 */				
 				bon.setCompteValeurs(compteValeur);
 				bon.setNumeroBon(UUID.randomUUID().toString());
-				bon.setSecret(n); 
+				bon.setSecret(randomService.pinString(8)); 
 				bon.setMontant(bon.getMontant());
 				bon.setDateExpiration(operationService.ajouterJour(new Date(), 3));
 				bonDao.saveAndFlush(bon);
 				
 				operationService.retirerBon(compteValeur.getNumCompte(), montant, topMontant, n, bon.getDescription(), bon.getCreateBy(), bon);
-				operationService.verserBon("CHARGE_INTERET_003", frais, topMontant, n, bon.getDescription(), bon.getCreateBy(), bon);
+				operationService.verserBon("780000", frais, topMontant, n, bon.getDescription(), bon.getCreateBy(), bon);
 				
 			}	
 			   
@@ -185,7 +188,7 @@ public class BonRestController {
 			double topMontant = compteValeur.getSolde() + unBon.getMontant();
 			bon.setCompteValeurs(compteValeur);
 			bon.setNumeroBon(UUID.randomUUID().toString());
-			bon.setSecret(n); 
+			bon.setSecret(randomService.pinString(8)); 
 			bon.setMontant(bon.getMontant());
 			bon.setDateExpiration(operationService.ajouterJour(new Date(), 3));
 			bonDao.saveAndFlush(bon);

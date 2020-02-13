@@ -33,7 +33,13 @@ public interface UserRepository extends JpaRepository<AppUser, Long> {
 	
 	public AppUser findByConfirmationToken(String confirmationToken);
 	
-	public List<AppUser> findBySupprimeIsFalseAndStatusIsFalseAndEnabledIsTrueAndActiveIsTrue();
+	public List<AppUser> findBySupprimeIsFalseAndStatusIsFalseAndEnabledIsTrueAndActiveIsTrueAndAccountNonLockedIsTrueAndAdminstratifIsTrue();
+	
+	public List<AppUser> findBySupprimeIsFalseAndStatusIsFalseAndEnabledIsTrueAndActiveIsTrueAndAccountNonLockedIsFalseAndAdminstratifIsTrue();
+	
+public List<AppUser> findBySupprimeIsFalseAndStatusIsFalseAndEnabledIsTrueAndActiveIsTrueAndAccountNonLockedIsTrueAndAdminstratifIsFalse();
+	
+	public List<AppUser> findBySupprimeIsFalseAndStatusIsFalseAndEnabledIsTrueAndActiveIsTrueAndAccountNonLockedIsFalseAndAdminstratifIsFalse();
 	
 	public List<AppUser> findBySupprimeIsFalseAndEnabledIsTrueAndActiveIsFalse();
 	

@@ -21,7 +21,7 @@ public interface CompteRepository extends JpaRepository<Compte, String>{
 	@Query("select c from Compte c where c.appUserCompte.id = :x")
 	public Page<Compte> chercherDate(@Param("x")Long mc,Pageable pageable);
 	
-	public List<Compte> findBySuprIsFalseAndFermerIsFalseAndActiveIsTrue();
+	public List<Compte> findBySuprIsFalseAndFermerIsFalseAndActiveIsTrueAndAatoutIsFalse();
 	
 	public List<Compte> findBySuprIsFalseAndFermerIsFalseAndActiveIsTrueAndAppUserCompte_id(long idUser);
 	
@@ -34,7 +34,7 @@ public interface CompteRepository extends JpaRepository<Compte, String>{
 	public List<CompteValeur> findCompteValeurBySuprIsFalseAndFermerIsFalseAndActiveIsTrue();
 	
 	public List<CompteValeur> findCompteValeurBySuprIsFalseAndFermerIsFalseAndActiveIsTrueAndAatoutIsTrue();
-	
+	public List<CompteValeur> findCompteValeurBySuprIsFalseAndFermerIsFalseAndActiveIsTrueAndAatoutIsFalse();
 	//public CompteValeur findByAppUserCompte(AppUser appUser);
 	
 

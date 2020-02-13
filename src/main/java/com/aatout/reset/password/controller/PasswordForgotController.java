@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.HashMap;
@@ -38,10 +39,10 @@ public class PasswordForgotController {
 	private PasswordResetTokenRepository tokenRepository;
 
 
-	@ModelAttribute("forgotPasswordForm")
+	/*@ModelAttribute("forgotPasswordForm")
 	public PasswordForgotDto forgotPasswordDto() {
 		return new PasswordForgotDto();
-	}
+	}*/
 
 	@GetMapping
 	public String displayForgotPasswordPage() {
@@ -49,7 +50,7 @@ public class PasswordForgotController {
 	}
 
 	@PostMapping
-	public String processForgotPasswordForm(@ModelAttribute("forgotPasswordForm") @Valid PasswordForgotDto form,
+	public String processForgotPasswordForm(@RequestBody @Valid PasswordForgotDto form,
 			BindingResult result,
 			HttpServletRequest request) {
 		System.out.println(" TEST TEST TEST");
@@ -60,7 +61,7 @@ public class PasswordForgotController {
 		}
 		
 		System.out.println(form.getEmail());
-
+		
 		AppUser user = userService.findBySupprimeIsFalseAndEnabledIsTrueAndEmailIs(form.getEmail());
 		System.out.println(user);
 		System.out.println(" TEST TEST TEST");
@@ -95,7 +96,8 @@ public class PasswordForgotController {
 		//model.put("resetUrl", url + "/reset-password?token=" + token.getToken());
 
 		emailService.sendEmail(forget);*/
-		String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+			String url = "https://atouts20.github.io/atouts";
+		//String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
 		String nom = user.getPrenom() +" "+user.getNom();
 		String msg = "Pour recupere votre compte atouts, veuillez cliquer sur le lien aatout ci-dessous:\n"
 				+ url + "/reset-password?token=" + token.getToken();

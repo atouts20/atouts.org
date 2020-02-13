@@ -262,6 +262,7 @@ public class OperationRestController {
 	}
 	
 	@PostMapping(value="/save-operation")
+	@Transactional
 	public OperationForm saveOperation(@RequestBody OperationForm operationForm){
 		System.out.println("-----------------------");
 		System.out.println(operationForm);
@@ -273,7 +274,7 @@ public class OperationRestController {
 		System.out.println("=====---TYPE----=====");
 		System.out.println(operationForm.getType());
 		System.out.println(operationForm.getBadge());
-		/*System.out.println(operationForm);
+		System.out.println(operationForm);
 		//Random rcd = new Random();
 		Long idMax =  operationRepository.getMax();
 		
@@ -287,7 +288,7 @@ public class OperationRestController {
 			badge = 1001L;
 		}else {
 			badge = operation.getBadge() + 1;
-		}*/
+		}
 		if (operationForm.getId() !=0) {
 			OperationAutorisation op = opAutoDao.findByStatusIsFalseAndSuprUserIsFalseAndId(operationForm.getId());
 			op.setEtat(StatusName.VALIDEE);
@@ -319,8 +320,8 @@ public class OperationRestController {
 	
 	@PostMapping(value="/save-operation-virement")
 	public OperationForm saveOperationVirement(@RequestBody OperationForm operationForm){
-		
-		/*System.out.println(operationForm);
+		System.out.println(operationForm);
+		System.out.println(operationForm);
 		//Random rcd = new Random();
 		Long idMax =  operationRepository.getMax();
 		
@@ -334,11 +335,11 @@ public class OperationRestController {
 			badge = 1001L;
 		}else {
 			badge = operation.getBadge() + 1;
-		}*/
+		}
 		
 		try{  
 			if (operationForm.getType().equals("VIRE")){
-				operationService.virement(operationForm.getNumCompte(), operationForm.getNumCompte2(), operationForm.getMontantOp(),  operationForm.getNarrative(), operationForm.getBadge(), operationForm.getCreateBy(), operationForm.getAutorisedBy());
+				operationService.virement(operationForm.getNumCompte(), operationForm.getNumCompte2(), operationForm.getMontantOp(),  operationForm.getNarrative(), badge, operationForm.getCreateBy(), operationForm.getAutorisedBy());
 			}
 		} catch(Exception e) {
 			//model.addAttribute("error", e);

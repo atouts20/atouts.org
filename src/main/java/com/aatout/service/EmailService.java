@@ -39,7 +39,9 @@ public class EmailService {
 	         
 	        message.setContent(htmlMsg, "text/html");*/
 	        helper.setTo(to);
-	        helper.setFrom("assistance.atout20@gmail.com");
+	        helper.setFrom("no-replay@atouts.org");
+	        /*helper.setFrom("assistance.atout20@gmail.com");*/
+	        helper.setSubject(subject);
 	        message.setContent(gethtmlMailFormat(subject,msg,helloName), "text/html");
 	        
 	       System.out.println("Succes email");

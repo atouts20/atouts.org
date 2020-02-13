@@ -37,7 +37,7 @@ public class CompteRestController {
 
 	@GetMapping("/listes")
 	public List<Compte> getComptes(){
-		return compteRepository.findBySuprIsFalseAndFermerIsFalseAndActiveIsTrue();
+		return compteRepository.findBySuprIsFalseAndFermerIsFalseAndActiveIsTrueAndAatoutIsFalse();
 		//return compteRepository.findAll();
 
 	}
@@ -53,10 +53,17 @@ public class CompteRestController {
 
 	@GetMapping("/listes-valeurs")
 	public List<CompteValeur> getComptesValeurs(){
-		return compteRepository.findCompteValeurBySuprIsFalseAndFermerIsFalseAndActiveIsTrue();
+		return compteRepository.findCompteValeurBySuprIsFalseAndFermerIsFalseAndActiveIsTrueAndAatoutIsFalse();
 		//return compteRepository.findAll();
 
 	}
+	
+	@GetMapping("/listes-tout-valeurs")
+	public List<CompteValeur> getoutComptesValeurs(){
+		return compteRepository.findCompteValeurBySuprIsFalseAndFermerIsFalseAndActiveIsTrue();
+		
+	}
+	
 	@GetMapping("/listes-monnaies")
 	public List<CompteMonnaie> getComptesMonnaies(){
 		return compteRepository.findCompteMonnaieBySuprIsFalseAndFermerIsFalseAndActiveIsTrue();
