@@ -29,7 +29,7 @@ import com.aatout.model.Facture;
 import com.aatout.model.Facturer;
 
 @RestController
-@CrossOrigin("**")
+@CrossOrigin(origins="https://api.atouts.org", maxAge = 3600)
 public class FacturerRestController {
 	/*@Autowired
 	private FacturerRepository facturerRepository;  

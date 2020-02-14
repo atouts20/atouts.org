@@ -29,7 +29,7 @@ import com.aatout.operation.OperationService;
 
 @RequestMapping("/payment")
 @RestController
-@CrossOrigin("**")
+@CrossOrigin(origins="https://api.atouts.org", maxAge = 3600)
 public class PaymentController {
 	public double totalMntMn;	
 	@Autowired

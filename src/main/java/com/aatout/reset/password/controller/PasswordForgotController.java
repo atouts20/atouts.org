@@ -7,6 +7,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +29,7 @@ import com.aatout.service.EmailService;
 @RestController
 @RequestMapping("/forgot-password")
 @PreAuthorize("permitAll")
+@CrossOrigin(origins="https://api.atouts.org", maxAge = 3600)
 public class PasswordForgotController {
 	@Autowired
 	private UserRepository userService;

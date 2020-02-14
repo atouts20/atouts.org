@@ -37,7 +37,7 @@ import com.aatout.operation.OperationService;
 
 @RequestMapping("/commande")
 @RestController
-@CrossOrigin("**")
+@CrossOrigin(origins="https://api.atouts.org", maxAge = 3600)
 public class CommandeController {
 	public boolean OkStock = false;
 	@Autowired

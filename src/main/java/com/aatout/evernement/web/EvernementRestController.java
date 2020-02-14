@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.aatout.evernement.dao.EvernementDao;
 
 @RestController
-@CrossOrigin("**")
+@CrossOrigin(origins="https://api.atouts.org", maxAge = 3600)
 @RequestMapping(value="/evernement")
 public class EvernementRestController {
 	@Autowired

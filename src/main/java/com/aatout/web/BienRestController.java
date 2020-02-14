@@ -49,7 +49,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 @RestController
-@CrossOrigin("**")
+@CrossOrigin(origins="https://api.atouts.org", maxAge = 3600)
 public class BienRestController {
 	
 	@Autowired

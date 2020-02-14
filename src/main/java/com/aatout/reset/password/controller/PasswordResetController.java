@@ -21,6 +21,7 @@ import javax.validation.Valid;
 @Controller 
 @RequestMapping("reset-password")
 @PreAuthorize("permitAll")
+@CrossOrigin(origins="https://api.atouts.org", maxAge = 3600)
 public class PasswordResetController {
 	@Autowired
 	private UserRepository userService;

@@ -37,7 +37,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 @RestController
-@CrossOrigin("**")
+@CrossOrigin(origins="https://api.atouts.org", maxAge = 3600)
 @RequestMapping("/publication")
 public class PublicationController {
 	

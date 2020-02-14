@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.aatout.evernement.dao.TicketDao;
 @RestController
-@CrossOrigin("**")
+@CrossOrigin(origins="https://api.atouts.org", maxAge = 3600)
 @RequestMapping(name="/ticket")
 public class TicketRestController {
 	@Autowired

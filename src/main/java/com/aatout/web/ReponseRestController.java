@@ -16,7 +16,7 @@ import com.aatout.dao.ReponseDao;
 import com.aatout.model.Reponse;
 
 @RestController
-@CrossOrigin("**")
+@CrossOrigin(origins="https://api.atouts.org", maxAge = 3600)
 @RequestMapping("/reponse")
 public class ReponseRestController {
 	@Autowired
