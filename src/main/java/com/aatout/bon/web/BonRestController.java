@@ -30,7 +30,7 @@ import com.aatout.operation.OperationService;
 import com.aatout.random.RandomCodeService;
 
 @RestController
-@CrossOrigin(origins="https://api.atouts.org", maxAge = 3600)
+@CrossOrigin(origins="https://atouts.org", maxAge = 3600)
 @RequestMapping(value="/bon")
 @Transactional
 public class BonRestController {

@@ -23,7 +23,7 @@ import com.aatout.model.Operation;
 
 
 @RestController
-@CrossOrigin(origins="https://api.atouts.org", maxAge = 3600)
+@CrossOrigin(origins="https://atouts.org", maxAge = 3600)
 @RequestMapping("/compte")
 public class CompteRestController {
 	@Autowired

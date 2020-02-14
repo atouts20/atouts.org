@@ -29,7 +29,7 @@ import com.aatout.service.EmailService;
 @RestController
 @RequestMapping("/forgot-password")
 @PreAuthorize("permitAll")
-@CrossOrigin(origins="https://api.atouts.org", maxAge = 3600)
+@CrossOrigin(origins="https://atouts.org", maxAge = 3600)
 public class PasswordForgotController {
 	@Autowired
 	private UserRepository userService;

@@ -37,7 +37,7 @@ import com.aatout.operation.OperationService;
 
 @RequestMapping("/commande-service")
 @RestController
-@CrossOrigin(origins="https://api.atouts.org", maxAge = 3600)
+@CrossOrigin(origins="https://atouts.org", maxAge = 3600)
 public class CommandeServiceController {
 	@Autowired
 	private CommandeServiceDao commandeServiceDao;
