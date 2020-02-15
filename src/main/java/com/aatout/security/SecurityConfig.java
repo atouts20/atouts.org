@@ -1,7 +1,5 @@
 package com.aatout.security;
 
-import com.aatout.security.JWTAuthenticationFilter;
-import com.aatout.security.JWTAuthorizationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

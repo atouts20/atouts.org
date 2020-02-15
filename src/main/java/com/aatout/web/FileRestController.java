@@ -19,7 +19,7 @@ import java.io.IOException;
 
 
 @RestController
-@CrossOrigin(origins="https://atouts.org", maxAge = 3600)
+@CrossOrigin("*")
 @RequestMapping("/piece")
 public class FileRestController {
 

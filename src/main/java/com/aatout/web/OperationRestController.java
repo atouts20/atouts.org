@@ -30,7 +30,7 @@ import com.aatout.operation.OperationService;
 import com.aatout.payload.OperationForm;
 
 @RestController
-@CrossOrigin(origins="https://atouts.org", maxAge = 3600)
+@CrossOrigin("*")
 @RequestMapping("/operation")
 public class OperationRestController {
 	@Autowired

@@ -16,7 +16,7 @@ import com.aatout.dao.GrouperRepository;
 import com.aatout.model.Groupe;
 
 @RestController
-@CrossOrigin(origins="https://atouts.org", maxAge = 3600)
+@CrossOrigin("*")
 public class GroupeRestController {
 	@Autowired
 	private GroupeRepository groupeRepository;

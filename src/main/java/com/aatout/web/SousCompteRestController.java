@@ -14,7 +14,7 @@ import com.aatout.dao.SousCompteDao;
 import com.aatout.model.SousCompte;
 
 @RestController
-@CrossOrigin(origins="https://atouts.org", maxAge = 3600)
+@CrossOrigin("*")
  @RequestMapping("/sous-compte")
 public class SousCompteRestController {
 	@Autowired

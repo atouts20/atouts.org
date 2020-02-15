@@ -16,7 +16,7 @@ import com.aatout.dao.RelanceDao;
 import com.aatout.model.Relance;
 
 @RestController
-@CrossOrigin(origins="https://atouts.org", maxAge = 3600)
+@CrossOrigin("*")
 @RequestMapping("/relance")
 public class RelanceRestController {
 	@Autowired

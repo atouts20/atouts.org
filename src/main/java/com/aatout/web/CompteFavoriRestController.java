@@ -15,7 +15,7 @@ import com.aatout.dao.CompteFavoriDao;
 import com.aatout.model.CompteFavori;
 
 @RestController
-@CrossOrigin(origins="https://atouts.org", maxAge = 3600)
+@CrossOrigin("*")
 @RequestMapping("/compte-favori")
 public class CompteFavoriRestController {
 	@Autowired
