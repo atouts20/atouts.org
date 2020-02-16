@@ -15,7 +15,6 @@ import com.aatout.dao.CompteFavoriDao;
 import com.aatout.model.CompteFavori;
 
 @RestController
-@CrossOrigin("*")
 @RequestMapping("/compte-favori")
 public class CompteFavoriRestController {
 	@Autowired

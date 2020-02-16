@@ -14,7 +14,6 @@ import com.aatout.dao.SousCompteDao;
 import com.aatout.model.SousCompte;
 
 @RestController
-@CrossOrigin("*")
  @RequestMapping("/sous-compte")
 public class SousCompteRestController {
 	@Autowired

@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.aatout.evernement.dao.EvernementDao;
 
 @RestController
-@CrossOrigin("*")
 @RequestMapping(value="/evernement")
 public class EvernementRestController {
 	@Autowired

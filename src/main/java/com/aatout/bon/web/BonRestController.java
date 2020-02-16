@@ -30,7 +30,6 @@ import com.aatout.operation.OperationService;
 import com.aatout.random.RandomCodeService;
 
 @RestController
-@CrossOrigin("*")
 @RequestMapping(value="/bon")
 @Transactional
 public class BonRestController {

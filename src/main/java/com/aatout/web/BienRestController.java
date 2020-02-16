@@ -49,7 +49,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 @RestController
-@CrossOrigin("*")
 public class BienRestController {
 	
 	@Autowired

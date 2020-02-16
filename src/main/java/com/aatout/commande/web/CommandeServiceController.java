@@ -37,7 +37,6 @@ import com.aatout.operation.OperationService;
 
 @RequestMapping("/commande-service")
 @RestController
-@CrossOrigin("*")
 public class CommandeServiceController {
 	@Autowired
 	private CommandeServiceDao commandeServiceDao;

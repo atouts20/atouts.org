@@ -23,7 +23,6 @@ import com.aatout.model.Facture;
 
 
 @RestController
-@CrossOrigin("*")
 public class FactureRestController {
 	@Autowired
 	private FactureRepository factureRepository;

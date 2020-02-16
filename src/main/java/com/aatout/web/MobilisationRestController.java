@@ -24,7 +24,6 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
-@CrossOrigin("*")
 @RequestMapping("/mobilisation")
 public class MobilisationRestController {
 	

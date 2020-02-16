@@ -16,7 +16,6 @@ import com.aatout.dao.GrouperRepository;
 import com.aatout.model.Groupe;
 
 @RestController
-@CrossOrigin("*")
 public class GroupeRestController {
 	@Autowired
 	private GroupeRepository groupeRepository;

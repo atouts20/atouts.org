@@ -37,7 +37,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 @RestController
-@CrossOrigin("*")
 @RequestMapping("/publication")
 public class PublicationController {
 	

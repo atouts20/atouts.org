@@ -30,7 +30,6 @@ import com.aatout.operation.OperationService;
 import com.aatout.payload.OperationForm;
 
 @RestController
-@CrossOrigin("*")
 @RequestMapping("/operation")
 public class OperationRestController {
 	@Autowired

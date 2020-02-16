@@ -21,7 +21,6 @@ import javax.validation.Valid;
 @Controller 
 @RequestMapping("reset-password")
 @PreAuthorize("permitAll")
-@CrossOrigin("*")
 public class PasswordResetController {
 	@Autowired
 	private UserRepository userService;

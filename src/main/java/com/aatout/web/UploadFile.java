@@ -28,7 +28,6 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 
 
 @RestController
-@CrossOrigin("*")
 public class UploadFile {
 //	private String UPLOAD_DIR = "/home/chistiane/Documents/JEE/videojee/Upload/SpringBootUploadFile/src/uploadDir/";
 	private final String UPLOAD_DIR = "C:\\Users\\Safoura\\Pictures\\boo\\aatout\\images\\";

@@ -24,6 +24,7 @@ import com.aatout.security.SecurityConstants;
 import com.aatout.service.AccountService;
 import com.aatout.service.AccountServiceImpl;
 import com.aatout.service.EmailService;
+import com.aatout.service.MesConstants;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -69,8 +70,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 @RestController
-@CrossOrigin("*")
 public class AccountRestController {
+	
 	@Autowired
 	private AccountService accountService;
 	@Autowired
@@ -776,7 +777,7 @@ public class AccountRestController {
 		userForm.setScane(modifiedFileName1);
 		
 		userForm.setSignature(modifiedFileName2);
-		userForm.setDateExpiration(new Date(System.currentTimeMillis()+SecurityConstants.EXPIRATION_TIME_TOKEN));
+		userForm.setDateExpiration(new Date(System.currentTimeMillis()+MesConstants.EXPIRATION_TIME_TOKEN));
 		
 		
 		accountService.saveUser(userForm);

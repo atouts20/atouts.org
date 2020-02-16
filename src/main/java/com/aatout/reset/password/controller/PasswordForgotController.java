@@ -29,7 +29,6 @@ import com.aatout.service.EmailService;
 @RestController
 @RequestMapping("/forgot-password")
 @PreAuthorize("permitAll")
-@CrossOrigin("*")
 public class PasswordForgotController {
 	@Autowired
 	private UserRepository userService;

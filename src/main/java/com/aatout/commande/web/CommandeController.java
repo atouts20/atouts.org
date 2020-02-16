@@ -37,7 +37,6 @@ import com.aatout.operation.OperationService;
 
 @RequestMapping("/commande")
 @RestController
-@CrossOrigin("*")
 public class CommandeController {
 	public boolean OkStock = false;
 	@Autowired

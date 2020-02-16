@@ -19,7 +19,6 @@ import java.io.IOException;
 
 
 @RestController
-@CrossOrigin("*")
 @RequestMapping("/piece")
 public class FileRestController {
 

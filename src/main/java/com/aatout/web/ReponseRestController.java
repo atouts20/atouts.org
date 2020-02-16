@@ -16,7 +16,6 @@ import com.aatout.dao.ReponseDao;
 import com.aatout.model.Reponse;
 
 @RestController
-@CrossOrigin("*")
 @RequestMapping("/reponse")
 public class ReponseRestController {
 	@Autowired

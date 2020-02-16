@@ -29,7 +29,6 @@ import com.aatout.model.Facture;
 import com.aatout.model.Facturer;
 
 @RestController
-@CrossOrigin("*")
 public class FacturerRestController {
 	/*@Autowired
 	private FacturerRepository facturerRepository;  

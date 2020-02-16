@@ -18,7 +18,6 @@ import com.aatout.model.Groupe;
 import com.aatout.model.Grouper;
 
 @RestController
-@CrossOrigin("*")
 public class GrouperRestController {
 	@Autowired
 	private GrouperRepository grouperRepository;

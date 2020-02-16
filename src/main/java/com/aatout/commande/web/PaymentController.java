@@ -29,7 +29,6 @@ import com.aatout.operation.OperationService;
 
 @RequestMapping("/payment")
 @RestController
-@CrossOrigin("*")
 public class PaymentController {
 	public double totalMntMn;	
 	@Autowired

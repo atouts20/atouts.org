@@ -23,7 +23,6 @@ import com.aatout.model.Operation;
 
 
 @RestController
-@CrossOrigin("*")
 @RequestMapping("/compte")
 public class CompteRestController {
 	@Autowired
