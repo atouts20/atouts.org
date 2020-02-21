@@ -22,7 +22,6 @@ import com.aatout.dao.RoleRepository;
 import com.aatout.model.AppRole;
 
 @RestController
-@CrossOrigin(origins="https://api.atouts.org", maxAge = 3600)
 public class RoleRestService {
 	
 	@Autowired

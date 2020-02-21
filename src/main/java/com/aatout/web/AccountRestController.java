@@ -29,11 +29,9 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.swagger.models.Model;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -47,15 +45,12 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.annotation.security.PermitAll;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -141,6 +136,11 @@ public class AccountRestController {
 	@GetMapping(value="/metier")
 	public List<Metier> getMetier(){
 		return metierDao.findAll();
+	} 
+	
+	@GetMapping(value="/user-names")
+	public List<String> getUserNames(){
+		return userRepository.findByUsername();
 	} 
 	
 	@RequestMapping(value="/chercherUserTest",method=RequestMethod.GET)
@@ -296,184 +296,186 @@ public class AccountRestController {
 		}*/
 		
 		userRepository.saveAndFlush(userForm);
-		
+		AppUser test = userRepository.saveAndFlush(userForm);
 		System.out.println("Enregistrement avec Success !!!!");
 		
-		
-		String codePays = userForm.getNationalite().getSub_Type();
-		
-		String codePays1 = userForm.getNationalite().getSub_Type() + userForm.getNationalite().getSommo_Name() ;
-		//System.out.println(codePays);
-		//System.out.println(codePays);
-		//Long idMax = compteRepository.getMax();
-		//System.out.println(idMax);
-		//String vv = 004;
-
-		Long num1 = compteRepository.getMax(codePays1);
-		System.out.println(num1);
-		if (num1 == null) {
-			num1 = 0L;
-		}
-		Compte unCompte =  compteRepository.findById(num1); 
-		System.out.println(unCompte);
-		System.out.println("==================== debut");
-		System.out.println(unCompte);
-		System.out.println("==================== fin");
-		
-		long dernierNumCompte; 
-		if(unCompte == null   ) {
-			dernierNumCompte = 100000000000L;
-		} else {
-			//unCompte = compteRepository.findTopByIdAndCodePays(codePays);
-			dernierNumCompte = unCompte.getMonNum() + 9;
-		}	
-		
-		
-		
-		
-		//int codePays = userForm.getNationalite().getCodePays();
-		
-		Compte cptmn = new CompteMonnaie();
-		cptmn.setTrans(true);
-		
-		cptmn.setCodePays(codePays1);
-		cptmn.setAppUserCompte(userForm);
-		Long numcptmn = dernierNumCompte + 1;
-		cptmn.setMonNum(numcptmn);
-		cptmn.setNumCompte("01"+codePays+numcptmn);
-		cptmn.setActive(true);
-		compteRepository.save(cptmn);
-		
-		Compte cptvl = new CompteValeur();
-		cptvl.setTrans(true);
-		cptvl.setCodePays(codePays1);
-		cptvl.setAppUserCompte(userForm);
-		Long numcptvl = dernierNumCompte + 2;
-		cptvl.setMonNum(numcptvl);
-		cptvl.setPin(randomService.pinString(8));
-		cptvl.setNumCompte("00"+codePays+numcptvl);
-		cptvl.setActive(true);
-		compteRepository.save(cptvl);
-		
-		// les sous comptes de user
-		SousCompte sousCompte1 = new SousCompte();
-		Long numsousCompte1 = dernierNumCompte + 3;
-		sousCompte1.setNumCompte("90"+codePays+numsousCompte1);
-		sousCompte1.setAppUserSousCompte(userForm);
-		sousCompte1.setType(TypeName.COMPTE_DE_PROVISIONS);
-		sousCompte1.setPin(randomService.pin());
-		sousCompte1.setActive(true);
-		sousCompteDao.save(sousCompte1);
-		
-		SousCompte sousCompte2 = new SousCompte();
-		Long numsousCompte2 = dernierNumCompte + 4;
-		sousCompte2.setNumCompte("80"+codePays+numsousCompte2);
-		sousCompte2.setAppUserSousCompte(userForm);
-		sousCompte2.setType(TypeName.COMPTE_TRESOR);
-		sousCompte2.setPin(randomService.pin());
-		sousCompte2.setActive(true);
-		sousCompteDao.save(sousCompte2);
-		
-		SousCompte sousCompte6 = new SousCompte();
-		Long numsousCompte6 = dernierNumCompte + 5;
-		sousCompte6.setNumCompte("70"+codePays+numsousCompte6);
-		sousCompte6.setAppUserSousCompte(userForm);
-		sousCompte6.setType(TypeName.COMPTE_ECHANGE_A_TERME);
-		sousCompte6.setPin(randomService.pin());
-		sousCompte6.setActive(true);
-		sousCompteDao.save(sousCompte6);
-		
-		SousCompte sousCompte4 = new SousCompte();
-		Long numsousCompte4 = dernierNumCompte + 6;
-		sousCompte4.setNumCompte("60"+codePays+numsousCompte4);
-		sousCompte4.setAppUserSousCompte(userForm);
-		sousCompte4.setType(TypeName.AVANCE_SUR_ED);
-		sousCompte4.setPin(randomService.pin());
-		sousCompte4.setActive(true);
-		sousCompteDao.save(sousCompte4);
-		
-		
-		SousCompte sousCompte7 = new SousCompte();
-		Long numsousCompte7 = dernierNumCompte + 7;
-		sousCompte7.setNumCompte("50"+codePays+numsousCompte7);
-		sousCompte7.setAppUserSousCompte(userForm);
-		sousCompte7.setType(TypeName.COMPTE_D_IMPEYER_ET);
-		sousCompte7.setPin(randomService.pin());
-		sousCompte7.setActive(true);
-		sousCompteDao.save(sousCompte7);
-		
-		SousCompte sousCompte8 = new SousCompte();
-		Long numsousCompte8 = dernierNumCompte + 8;
-		sousCompte8.setNumCompte("40"+codePays+numsousCompte8);
-		sousCompte8.setAppUserSousCompte(userForm);
-		sousCompte8.setType(TypeName.COMPTE_D_IMPEYER_AVANCE_ED);
-		sousCompte8.setPin(randomService.pin());
-		sousCompte8.setActive(true);
-		sousCompteDao.save(sousCompte8);
-		
-		
-		SousCompte sousCompte9 = new SousCompte();
-		Long numsousCompte9 = dernierNumCompte + 9;
-		sousCompte9.setNumCompte("89"+codePays+numsousCompte9);
-		sousCompte9.setAppUserSousCompte(userForm);
-		sousCompte9.setType(TypeName.AUTRE_TRESOR);
-		sousCompte9.setPin(randomService.pin());
-		sousCompte9.setActive(true);
-		sousCompteDao.save(sousCompte9);
-		
-		
-		SousCompte sousCompte5 = new SousCompte();
-		Long numsousCompte5 = dernierNumCompte + 10;
-		sousCompte5.setNumCompte("79"+codePays+numsousCompte5);
-		sousCompte5.setAppUserSousCompte(userForm);
-		sousCompte5.setType(TypeName.AUTRE_COMPTE_ET);
-		sousCompte5.setPin(randomService.pin());
-		sousCompte5.setActive(true);
-		sousCompteDao.save(sousCompte5);
-
-		
-		
-		
-		SousCompte sousCompte3 = new SousCompte();
-		Long numsousCompte3 = dernierNumCompte + 11;
-		sousCompte3.setNumCompte("30"+codePays+numsousCompte3);
-		sousCompte3.setAppUserSousCompte(userForm);
-		sousCompte3.setType(TypeName.AUTRE_COMPTE_D_IMPEYER);
-		sousCompte3.setPin(randomService.pin());
-		sousCompte3.setActive(true);
-		sousCompteDao.save(sousCompte3);
+		if(test != null) {
+			String codePays = userForm.getNationalite().getSub_Type();
 			
+			String codePays1 = userForm.getNationalite().getSub_Type() + userForm.getNationalite().getSommo_Name() ;
+			//System.out.println(codePays);
+			//System.out.println(codePays);
+			//Long idMax = compteRepository.getMax();
+			//System.out.println(idMax);
+			//String vv = 004;
+
+			Long num1 = compteRepository.getMax(codePays1);
+			System.out.println(num1);
+			if (num1 == null) {
+				num1 = 0L;
+			}
+			Compte unCompte =  compteRepository.findById(num1); 
+			System.out.println(unCompte);
+			System.out.println("==================== debut");
+			System.out.println(unCompte);
+			System.out.println("==================== fin");
+			
+			long dernierNumCompte; 
+			if(unCompte == null   ) {
+				dernierNumCompte = 100000000000L;
+			} else {
+				//unCompte = compteRepository.findTopByIdAndCodePays(codePays);
+				dernierNumCompte = unCompte.getMonNum() + 9;
+			}	
+			
+			
+			
+			
+			//int codePays = userForm.getNationalite().getCodePays();
+			
+			Compte cptmn = new CompteMonnaie();
+			cptmn.setTrans(true);
+			
+			cptmn.setCodePays(codePays1);
+			cptmn.setAppUserCompte(userForm);
+			Long numcptmn = dernierNumCompte + 1;
+			cptmn.setMonNum(numcptmn);
+			cptmn.setNumCompte("01"+codePays+numcptmn);
+			cptmn.setActive(true);
+			compteRepository.save(cptmn);
+			
+			Compte cptvl = new CompteValeur();
+			cptvl.setTrans(true);
+			cptvl.setCodePays(codePays1);
+			cptvl.setAppUserCompte(userForm);
+			Long numcptvl = dernierNumCompte + 2;
+			cptvl.setMonNum(numcptvl);
+			cptvl.setPin(randomService.pinString(8));
+			cptvl.setNumCompte("00"+codePays+numcptvl);
+			cptvl.setActive(true);
+			compteRepository.save(cptvl);
+			
+			// les sous comptes de user
+			SousCompte sousCompte1 = new SousCompte();
+			Long numsousCompte1 = dernierNumCompte + 3;
+			sousCompte1.setNumCompte("90"+codePays+numsousCompte1);
+			sousCompte1.setAppUserSousCompte(userForm);
+			sousCompte1.setType(TypeName.COMPTE_DE_PROVISIONS);
+			sousCompte1.setPin(randomService.pin());
+			sousCompte1.setActive(true);
+			sousCompteDao.save(sousCompte1);
+			
+			SousCompte sousCompte2 = new SousCompte();
+			Long numsousCompte2 = dernierNumCompte + 4;
+			sousCompte2.setNumCompte("80"+codePays+numsousCompte2);
+			sousCompte2.setAppUserSousCompte(userForm);
+			sousCompte2.setType(TypeName.COMPTE_TRESOR);
+			sousCompte2.setPin(randomService.pin());
+			sousCompte2.setActive(true);
+			sousCompteDao.save(sousCompte2);
+			
+			SousCompte sousCompte6 = new SousCompte();
+			Long numsousCompte6 = dernierNumCompte + 5;
+			sousCompte6.setNumCompte("70"+codePays+numsousCompte6);
+			sousCompte6.setAppUserSousCompte(userForm);
+			sousCompte6.setType(TypeName.COMPTE_ECHANGE_A_TERME);
+			sousCompte6.setPin(randomService.pin());
+			sousCompte6.setActive(true);
+			sousCompteDao.save(sousCompte6);
+			
+			SousCompte sousCompte4 = new SousCompte();
+			Long numsousCompte4 = dernierNumCompte + 6;
+			sousCompte4.setNumCompte("60"+codePays+numsousCompte4);
+			sousCompte4.setAppUserSousCompte(userForm);
+			sousCompte4.setType(TypeName.AVANCE_SUR_ED);
+			sousCompte4.setPin(randomService.pin());
+			sousCompte4.setActive(true);
+			sousCompteDao.save(sousCompte4);
+			
+			
+			SousCompte sousCompte7 = new SousCompte();
+			Long numsousCompte7 = dernierNumCompte + 7;
+			sousCompte7.setNumCompte("50"+codePays+numsousCompte7);
+			sousCompte7.setAppUserSousCompte(userForm);
+			sousCompte7.setType(TypeName.COMPTE_D_IMPEYER_ET);
+			sousCompte7.setPin(randomService.pin());
+			sousCompte7.setActive(true);
+			sousCompteDao.save(sousCompte7);
+			
+			SousCompte sousCompte8 = new SousCompte();
+			Long numsousCompte8 = dernierNumCompte + 8;
+			sousCompte8.setNumCompte("40"+codePays+numsousCompte8);
+			sousCompte8.setAppUserSousCompte(userForm);
+			sousCompte8.setType(TypeName.COMPTE_D_IMPEYER_AVANCE_ED);
+			sousCompte8.setPin(randomService.pin());
+			sousCompte8.setActive(true);
+			sousCompteDao.save(sousCompte8);
+			
+			
+			SousCompte sousCompte9 = new SousCompte();
+			Long numsousCompte9 = dernierNumCompte + 9;
+			sousCompte9.setNumCompte("89"+codePays+numsousCompte9);
+			sousCompte9.setAppUserSousCompte(userForm);
+			sousCompte9.setType(TypeName.AUTRE_TRESOR);
+			sousCompte9.setPin(randomService.pin());
+			sousCompte9.setActive(true);
+			sousCompteDao.save(sousCompte9);
+			
+			
+			SousCompte sousCompte5 = new SousCompte();
+			Long numsousCompte5 = dernierNumCompte + 10;
+			sousCompte5.setNumCompte("79"+codePays+numsousCompte5);
+			sousCompte5.setAppUserSousCompte(userForm);
+			sousCompte5.setType(TypeName.AUTRE_COMPTE_ET);
+			sousCompte5.setPin(randomService.pin());
+			sousCompte5.setActive(true);
+			sousCompteDao.save(sousCompte5);
+
+			
+			
+			
+			SousCompte sousCompte3 = new SousCompte();
+			Long numsousCompte3 = dernierNumCompte + 11;
+			sousCompte3.setNumCompte("30"+codePays+numsousCompte3);
+			sousCompte3.setAppUserSousCompte(userForm);
+			sousCompte3.setType(TypeName.AUTRE_COMPTE_D_IMPEYER);
+			sousCompte3.setPin(randomService.pin());
+			sousCompte3.setActive(true);
+			sousCompteDao.save(sousCompte3);
+				
+			
+			
+			
+			 
+			String nom = userForm.getPrenom() +" "+userForm.getNom();
+			String msg = "Votre numero de compte atouts est :\n"+ cptvl.getNumCompte()+". \n Connectez vous sur <a> www.atouts.com/connexion</a>";
+			emailService.sendMailHtml(userForm.getEmail(), "ADHESION REUSSIE", msg, nom);
+			
+			
+			  
+			/*String appUrl = request.getScheme() +"://" + request.getServerName() + ":" +request.getServerPort();
+
+			SimpleMailMessage registrationEmail = new SimpleMailMessage();
+
+			registrationEmail.setTo(userForm.getEmail());
+
+			registrationEmail.setSubject("Registration Confirmation");
+
+			registrationEmail.setText("Pour confirmer votre adresse e-mail, veuillez cliquer sur le lien aatout ci-dessous:\n"
+					+ appUrl + "/confirm?token=" + userForm.getConfirmationToken());
+			// Adresse email de aatout
+			registrationEmail.setFrom("aamadoudiko@gmail.com");
+
+
+
+			emailService.sendEmail(registrationEmail);
+			System.out.println("Un e-mail de confirmation a été envoyé à :" +userForm.getEmail() );*/
+			
+
+			
+		}
 		
-		
-		
-		 
-		String nom = userForm.getPrenom() +" "+userForm.getNom();
-		String msg = "Votre numero de compte atouts est :\n"+ cptvl.getNumCompte()+". \n Connectez vous sur <a> www.atouts.com/connexion</a>";
-		emailService.sendMailHtml(userForm.getEmail(), "ADHESION REUSSIE", msg, nom);
-		
-		
-		  
-		/*String appUrl = request.getScheme() +"://" + request.getServerName() + ":" +request.getServerPort();
-
-		SimpleMailMessage registrationEmail = new SimpleMailMessage();
-
-		registrationEmail.setTo(userForm.getEmail());
-
-		registrationEmail.setSubject("Registration Confirmation");
-
-		registrationEmail.setText("Pour confirmer votre adresse e-mail, veuillez cliquer sur le lien aatout ci-dessous:\n"
-				+ appUrl + "/confirm?token=" + userForm.getConfirmationToken());
-		// Adresse email de aatout
-		registrationEmail.setFrom("aamadoudiko@gmail.com");
-
-
-
-		emailService.sendEmail(registrationEmail);
-		System.out.println("Un e-mail de confirmation a été envoyé à :" +userForm.getEmail() );*/
-		
-
 		return userForm;
-
 
 	}
 	
@@ -811,7 +813,8 @@ public class AccountRestController {
 
 		emailService.sendEmail(registrationEmail);
 		System.out.println("Un e-mail de confirmation a été envoyé à :" +userForm.getEmail() );*/
-		String appUrl = request.getScheme() +"://" + request.getServerName() + ":" +request.getServerPort();
+		//String appUrl = request.getScheme() +"://" + request.getServerName() + ":" +request.getServerPort();
+		String appUrl = "https://api.atouts.org";
 
 		String msg = "Pour confirmer votre inscription, veuillez cliquer sur le lien atouts ci-dessous:\n <a>" + appUrl + "/confirm?token=" + userForm.getConfirmationToken()+"</a>";
 		String nom = userForm.getPrenom() +" "+userForm.getNom();

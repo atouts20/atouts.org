@@ -229,7 +229,7 @@ public class PublicationController {
 		String fileName = file.getOriginalFilename();
 
 		//String modifiedFileName = FilenameUtils.getBaseName(fileName) + "_" +System.currentTimeMillis() + "." +FilenameUtils.getExtension(fileName);
-		String modifiedFileName = "WE_UPLOADED_THIS"+FilenameUtils.getBaseName(fileName) + "." +FilenameUtils.getExtension(fileName);
+		String modifiedFileName = System.currentTimeMillis()+FilenameUtils.getBaseName(fileName) + "." +FilenameUtils.getExtension(fileName);
 
 		uploadFile.uploadFile(file, modifiedFileName); 
 

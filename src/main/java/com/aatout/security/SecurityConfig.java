@@ -1,5 +1,12 @@
 package com.aatout.security;
 
+import com.aatout.security.JWTAuthenticationFilter;
+import com.aatout.security.JWTAuthorizationFilter;
+
+import java.util.Collections;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -12,6 +19,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
@@ -30,14 +39,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {	
 		http.csrf().disable();
-		http.cors();
+
 		//Pour deactiver la securit� par session
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		//http.formLogin();
+		http.cors().configurationSource(new CorsConfigurationSource() {
+			
+			@Override
+			public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+				// TODO Auto-generated method stub
+				CorsConfiguration config = new CorsConfiguration();
+				config.setAllowedHeaders(Collections.singletonList("*"));
+				config.setAllowedMethods(Collections.singletonList("*"));
+				config.addAllowedOrigin("*");
+				config.setAllowCredentials(true);
+				return config;
+			}
+		});
+		
+		
 		http.authorizeRequests()
 		.antMatchers(
 				"/forgot-password/**",
-				"/reset-password/**", "/pays/**", "/metier/**").permitAll()
+				"/reset-password/**", "/pays/**", "/metier/**","/user-names/**").permitAll()
 		.antMatchers("/login/**","/swagger-ui.html/**","/listEchanges/**", "/downloadFile/{fileId}/**", 
 				"/register/**", "/confirm", "/confirm", "/produits-page","/services-page", "/echanges-page", "/pays/*", "/metier/*").permitAll()
 		.antMatchers("/",

@@ -86,6 +86,11 @@ public class BienRestController {
 		public List<Produit> getProduitsActiver(){
 			return produitRepository.findBySuprAndAccepterAndActive(false, false, true);
 		}
+		
+		/*@GetMapping(value="/list-demande-produit-accepter")
+		public List<Produit> getProduitsDemande(){
+			return produitRepository.findBySuprAndAccepterAndActive(false, false, false);
+		}*/
 
 		@GetMapping(value="/listes-produits-non-activer")
 		public List<Produit> getProduitsPasActiver(){
@@ -342,33 +347,46 @@ public class BienRestController {
 			return echangeRepository.findBySuprIsFalseAndActiveIsTrueAndAccepterIsTrueAndProprietaires_Id( new PageRequest(page, size, sort), proprietaires);
 		}
 
-		//******************** accepter echange ***********************
-		@DeleteMapping(value="/accepteEchange/{id}")
-		public Echange accepteEchange(@PathVariable Long id) {
-			Echange echange = echangeRepository.findOne(id);
-			try {
-				echange.setAccepter(true);
-				echangeRepository.save(echange);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		//******************** accepter echange *********************** 
+		@PostMapping(value="/accepteEchange")
+		public Echange accepteEchange(@RequestBody Echange echange) {
+			long nbrEchange = echangeRepository.countBySuprIsFalseAndActiveIsTrueAndAccepterIsFalseAndProprietaires_Id(echange.getProprietaires().getId());
+			System.out.println(nbrEchange);
+			if (nbrEchange == 10 || nbrEchange > 10) {
+				return null;				
+			} else {
+				Echange echang = echangeRepository.findOne(echange.getId());
+				try {
+					echang.setAccepter(true);
+					echangeRepository.save(echang);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 
-			return echange;
+				return echange;
+			}
+			
 
 		}
 		// ***************** activer echange *****************
-		@DeleteMapping(value="/activeEchange/{id}")
-		public Echange activeEchange(@PathVariable Long id) {
-			Echange echange = echangeRepository.findOne(id);
+		@PostMapping(value="/activeEchange")
+		public Echange activeEchange(@RequestBody Echange echange) {
+			long nbrEchange = echangeRepository.countBySuprIsFalseAndActiveIsTrueAndAccepterIsTrueAndProprietaires_Id(echange.getProprietaires().getId());
+			System.out.println(nbrEchange);
+			if (nbrEchange == 10 || nbrEchange > 10) {
+				return null;				
+			} else {
+				Echange echang = echangeRepository.findOne(echange.getId());
+			
 			try {
-				echange.setActive(true);
-				echangeRepository.save(echange);
+				echang.setActive(true);
+				echangeRepository.save(echang);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 
 			return echange;
-
+			}
 		}
 
 		// ***************************** supression des echanges **********************
@@ -405,17 +423,23 @@ public class BienRestController {
 
 		@PostMapping(value="/postEchange")
 		public Echange saveEchange(@RequestParam("echange") String echange, @RequestParam("file") MultipartFile file)throws JsonParseException, JsonMappingException, IOException{
-
 			Echange echanges = new ObjectMapper().readValue(echange, Echange.class);
+			
+			long nbrEchange = echangeRepository.countBySuprIsFalseAndActiveIsTrueAndAccepterIsTrueAndProprietaires_Id(echanges.getProprietaires().getId());
+			System.out.println(nbrEchange);
+			if (nbrEchange == 10 || nbrEchange > 10) {
+				return null;				
+			} else {
+				
+				String fileName = file.getOriginalFilename();
 
-			String fileName = file.getOriginalFilename();
+				String modifiedFileName = System.currentTimeMillis() +FilenameUtils.getBaseName(fileName) + "." +FilenameUtils.getExtension(fileName);
 
-			String modifiedFileName = "WE_UPLOADED_THIS"+FilenameUtils.getBaseName(fileName) + "." +FilenameUtils.getExtension(fileName);
+				uploadFile.uploadFile(file, modifiedFileName);
 
-			uploadFile.uploadFile(file, modifiedFileName);
-
-			echanges.setPhoto(modifiedFileName);
-			return echangeRepository.saveAndFlush(echanges);
+				echanges.setPhoto(modifiedFileName);
+				return echangeRepository.saveAndFlush(echanges);
+			}
 		}
 
 		@PatchMapping(value="/biens/{id}")

@@ -48,5 +48,6 @@ public List<AppUser> findBySupprimeIsFalseAndStatusIsFalseAndEnabledIsTrueAndAct
 	 	@Modifying
 	    @Query("update AppUser u set u.password = :password where u.id = :id")
 	    void updatePassword(@Param("password") String password, @Param("id") Long id);
-
+	 	@Query("Select username From AppUser")
+	 	public List<String> findByUsername();
 }

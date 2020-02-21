@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.annotation.security.PermitAll;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -30,8 +32,8 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 @RestController
 public class UploadFile {
 //	private String UPLOAD_DIR = "/home/chistiane/Documents/JEE/videojee/Upload/SpringBootUploadFile/src/uploadDir/";
-	private final String UPLOAD_DIR = "C:\\Users\\Safoura\\Pictures\\boo\\aatout\\images\\";
-	//private final String UPLOAD_DIR = "dashboard.heroku.com/apps/app-atout\\target\\images";
+	//private final String UPLOAD_DIR = "C:\\Users\\Safoura\\Pictures\\boo\\aatout\\images\\";
+	private final String UPLOAD_DIR = "/var/www/vhosts/atouts.org/api.atouts.org/images/";
 
 	
 

@@ -72,6 +72,7 @@ public class AatoutApplication extends SpringBootServletInitializer implements C
 
 	@Override
 	public void run(String... args) throws Exception {
+		//storageService.init();
 		/*String uuid = UUID.randomUUID().toString();
 		int t=uuid.length();
 		String chaine = uuid.substring(32,t);

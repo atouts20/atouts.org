@@ -18,8 +18,9 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class StorageService {
 	Logger log = LoggerFactory.getLogger(this.getClass().getName());
-//	private final Path rootLocation = Paths.get("/home/chistiane/Documents/ProjetAatout/UploadFile9");
-	private final Path rootLocation = Paths.get("C:\\Users\\user\\Documents\\aatout");
+	private final Path rootLocation = Paths.get("/var/www/vhosts/atouts.org/api.atouts.org/images/");
+	//private final Path rootLocation = Paths.get("C:\\Users\\Safoura\\Pictures\\boo\\aatout\\images\\");
+	
 	
 	public void store(MultipartFile file) {
 		try {

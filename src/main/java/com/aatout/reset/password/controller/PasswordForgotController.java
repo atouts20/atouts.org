@@ -61,51 +61,32 @@ public class PasswordForgotController {
 			return "forgot-password";
 		}
 		
-		System.out.println(form.getEmail());
-		
 		AppUser user = userService.findBySupprimeIsFalseAndEnabledIsTrueAndEmailIs(form.getEmail());
-		System.out.println(user);
-		System.out.println(" TEST TEST TEST");
-		System.out.println(form);
+		
 		if (user == null){
 			result.rejectValue("email", null, "We could not find an account for that e-mail address.");
 			return "forgot-password";
+		}else {
+			PasswordResetToken token = new PasswordResetToken();
+			token.setToken(UUID.randomUUID().toString());
+			token.setUser(user);
+			token.setExpiryDate(30);
+			tokenRepository.save(token);
+
+			
+
+				String url = "https://atouts.org";
+			//String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+			String nom = user.getPrenom() +" "+user.getNom();
+			String msg = "Pour recupere votre compte atouts, veuillez cliquer sur le lien aatout ci-dessous:\n"
+					+ url + "/reset-password?token=" + token.getToken();
+			emailService.sendMailHtml(user.getEmail(), "RECUPERATION MOT DE PASSE", msg, nom);
+			
+
+			return "redirect:/forgot-password?success";
 		}
 
-		PasswordResetToken token = new PasswordResetToken();
-		token.setToken(UUID.randomUUID().toString());
-		token.setUser(user);
-		token.setExpiryDate(30);
-		tokenRepository.save(token);
-
-		/*SimpleMailMessage forget = new SimpleMailMessage();
-		//Mail mail = new Mail();
-		forget.setTo(user.getEmail());
-		forget.setSubject("Password reset request");
-		forget.setFrom("aamadoudiko@gmail.com");*/
-
 		
-
-		/*Map<String, Object> model = new HashMap<>();
-		model.put("token", token);
-		model.put("user", user);
-		model.put("signature", "https://memorynotfound.com");*/
-
-		/*String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
-		forget.setText("Pour récuperé votre compte atouts, veuillez cliquer sur le lien aatout ci-dessous:\n"
-				+ url + "/reset-password?token=" + token.getToken());
-		//model.put("resetUrl", url + "/reset-password?token=" + token.getToken());
-
-		emailService.sendEmail(forget);*/
-			String url = "https://atouts20.github.io/atouts";
-		//String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
-		String nom = user.getPrenom() +" "+user.getNom();
-		String msg = "Pour recupere votre compte atouts, veuillez cliquer sur le lien aatout ci-dessous:\n"
-				+ url + "/reset-password?token=" + token.getToken();
-		emailService.sendMailHtml(user.getEmail(), "RECUPERATION MOT DE PASSE", msg, nom);
-		
-
-		return "redirect:/forgot-password?success";
 
 	}
 
