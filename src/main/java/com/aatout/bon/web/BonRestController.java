@@ -26,6 +26,7 @@ import com.aatout.model.Depot;
 import com.aatout.model.EmissionBon;
 import com.aatout.model.EncaisseBon;
 import com.aatout.model.LiquidationBon;
+import com.aatout.model.Mobilisation;
 import com.aatout.operation.OperationService;
 import com.aatout.random.RandomCodeService;
 
@@ -53,9 +54,21 @@ public class BonRestController {
 		return bonDao.findByStatus(false);
 	}
 	
+	@GetMapping(value = "/listes")
+	public List<Bon> getBonss() {
+		return bonDao.findAll();
+	}
+	
 	@GetMapping(value = "/verifier-un-bon/{numeroBon}")
 	public Bon getVerifierBon(@PathVariable String numeroBon) {
 		Bon unBon = bonDao.findByStatusIsFalseAndEncaisseIsFalseAndLiquideIsFalseAndNumeroBonIs(numeroBon);
+		System.out.println();
+		return unBon;
+	}
+	
+	@GetMapping(value = "/un-bon-aliquider/{numeroBon}")
+	public Bon getVerifierBonAliquider(@PathVariable String numeroBon) {
+		Bon unBon = bonDao.findByStatusIsFalseAndEncaisseIsTrueAndLiquideIsFalseAndNumeroBonIs(numeroBon);
 		System.out.println();
 		return unBon;
 	}
@@ -167,7 +180,7 @@ public class BonRestController {
 		
 		System.out.println(bon);
 		
-		Bon unBon = bonDao.findByStatusIsFalseAndEncaisseIsFalseAndLiquideIsFalseAndNumeroBonIs(bon.getNumeroBon());
+		Bon unBon = bonDao.findByStatusIsFalseAndEncaisseIsTrueAndLiquideIsFalseAndNumeroBonIs(bon.getNumeroBon());
 		System.out.println(unBon);
 		Random rcd = new Random();
 		Long valeurMin = 10000L;
@@ -210,6 +223,13 @@ public class BonRestController {
 
 		bon.setStatus(true);
 		return	bonDao.saveAndFlush(bon); 
+	}
+	
+	@PostMapping(value = "/delete-by-user")
+	public Bon deleteByUser(@RequestBody Bon bon) {
+
+		bon.setSuprUser(true);
+		return	bonDao.saveAndFlush(bon);
 	}
 
 }

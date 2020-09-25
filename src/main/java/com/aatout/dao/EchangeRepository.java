@@ -37,6 +37,9 @@ public interface EchangeRepository extends JpaRepository<Echange, Long>{
 	public List<Echange> findBySuprIsFalseAndActiveIsTrueAndAccepterIsTrue();
 	public Long countBySuprIsFalseAndActiveIsTrueAndAccepterIsTrueAndProprietaires_Id(long proprietaires);
 	public Long countBySuprIsFalseAndActiveIsTrueAndAccepterIsFalseAndProprietaires_Id(long pro);
+	
+	public List<Echange> findBySuprIsFalseAndActiveIsTrueAndAccepterIsTrueAndProprietaires_Id(long proprietaires);
+	public List<Echange> findBySuprIsFalseAndActiveIsTrueAndAccepterIsFalseAndProprietaires_Id(long pro);
 	//public Long countBySuprIsFalseAndActiveIsTrueAndAccepterIsTrueAndProprietaires_Id(long pro);
 
 

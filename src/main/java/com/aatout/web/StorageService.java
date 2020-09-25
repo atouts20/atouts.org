@@ -20,6 +20,7 @@ public class StorageService {
 	Logger log = LoggerFactory.getLogger(this.getClass().getName());
 	private final Path rootLocation = Paths.get("/var/www/vhosts/atouts.org/api.atouts.org/images/");
 	//private final Path rootLocation = Paths.get("C:\\Users\\Safoura\\Pictures\\boo\\aatout\\images\\");
+	//private final Path rootLocation = Paths.get("/opt/tomcat/webapps/api.atouts.org/images/");
 	
 	
 	public void store(MultipartFile file) {

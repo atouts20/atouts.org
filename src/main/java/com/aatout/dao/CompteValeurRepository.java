@@ -19,7 +19,7 @@ public interface CompteValeurRepository extends JpaRepository<CompteValeur, Stri
 	List<Compte>listCompteValeur();
 
 	public CompteValeur findBySuprAndFermerAndActiveAndPin(boolean supr, boolean fermer, boolean active, long pin );
-	public CompteValeur findByPin(long pin);
+	public CompteValeur findByPinIs(String pin);
 
 	public CompteValeur findByAppUserCompte(AppUser appUser);
 	

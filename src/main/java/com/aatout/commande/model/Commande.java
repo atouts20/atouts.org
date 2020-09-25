@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -35,6 +36,8 @@ public class Commande extends EntityBaseBean implements Serializable{
 	private String livraison;
     @OneToOne(mappedBy = "commande")
     private Payment payment;
+    @Column(nullable=true)
+    private double contreParti;
     /*
     @OneToMany(mappedBy="commande", fetch = FetchType.LAZY)
 	private List<OperationTransaction> operationsTr = new ArrayList<>();
@@ -105,9 +108,13 @@ public class Commande extends EntityBaseBean implements Serializable{
 	public void setPayment(Payment payment) {
 		this.payment = payment;
 	}
-	
-	
-	
+		
+	public double getContreParti() {
+		return contreParti;
+	}
+	public void setContreParti(double contreParti) {
+		this.contreParti = contreParti;
+	}
 	public Commande() {
 		super();
 		// TODO Auto-generated constructor stub

@@ -12,6 +12,7 @@ public interface BonDao extends JpaRepository<Bon, Long> {
 	Bon findByStatusIsFalseAndEncaisseIsFalseAndLiquideIsFalseAndId(Long id);
 	List<Bon> findByStatusIsFalseAndEncaisseIsFalseAndLiquideIsFalse();
 	Bon findByStatusIsFalseAndEncaisseIsFalseAndLiquideIsFalseAndNumeroBonIs(String id);
+	Bon findByStatusIsFalseAndEncaisseIsTrueAndLiquideIsFalseAndNumeroBonIs(String id);
 	List<Bon> findByStatusIsFalseAndEncaisseIsTrueAndLiquideIsFalse();
 	List<Bon> findByStatusIsFalseAndEncaisseIsTrueAndLiquideIsTrue();
 	Bon findByStatusIsFalseAndEncaisseIsFalseAndLiquideIsFalseAndSecret(String secret);

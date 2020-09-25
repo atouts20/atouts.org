@@ -17,12 +17,25 @@ public class BienForm {
 	
 	private Double stockAlert;
 	
+	private Double caution;
+	
 	private String cat;
 	
 	private Groupe proprietaire;
 	
 	private String type;
 	
+	private String localisation;
+	
+	
+
+	public String getLocalisation() {
+		return localisation;
+	}
+
+	public void setLocalisation(String localisation) {
+		this.localisation = localisation;
+	}
 
 	public String getType() {
 		return type;
@@ -102,6 +115,14 @@ public class BienForm {
 
 	public void setStockAlert(Double stockAlert) {
 		this.stockAlert = stockAlert;
+	}
+
+	public Double getCaution() {
+		return caution;
+	}
+
+	public void setCaution(Double caution) {
+		this.caution = caution;
 	}
 	
 	

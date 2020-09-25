@@ -24,7 +24,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		AppUser user= accountService.findUserByUsername(username);
 		System.out.println(user);
 		if(user==null)throw new UsernameNotFoundException(username);
-		if(user.isEnabled()==false || user.isActive()==false || user.isAccountNonLocked()==false) throw new UsernameNotFoundException(username);
+		if(user.isEnabled() == false || user.isActive() == false || user.isAccountNonLocked() == false) throw new UsernameNotFoundException(username);
 		
 		Collection<GrantedAuthority> authorities=new ArrayList<>();
 		user.getRoles().forEach(r->{

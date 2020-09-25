@@ -308,15 +308,15 @@ public class EmailService {
 	                "\t\t\t\t\t\t\t\t\t\t<td class=\"hero-subheader__content\" style=\"font-size: 12px; line-height: 27px; color: #969696; padding: 0 40px 40px 0;\"\n" +
 	                "\t\t\t\t\t\t\t\t\t\talign=\"left\">\n" +
 	                "\n" +
-	                "\t\t\t\t\t\t\t\t\t\t\tPour toute information complémentaire, merci de nous conctacter aux adresses suivantes\n" +
-	                "\t\t\t\t\t\t\t\t\t\t\tTélephone : +229 9910235684.<br>\n" +
-	                "\t\t\t\t\t\t\t\t\t\t\tEmail : <a href=\"mailto:atouts2020@gmail.com\">atouts2020@gmail.com</a>\n" +
+	                "\t\t\t\t\t\t\t\t\t\t\tPour toute information complémentaire, merci de  conctacter <a href=\"ecoute@atouts.org\">ecoute@atouts.org</a> \n" +
+	                /*"\t\t\t\t\t\t\t\t\t\t\tTélephone : +229 9910235684.<br>\n" +
+	                "\t\t\t\t\t\t\t\t\t\t\tEmail : <a href=\"mailto:ecoute@atouts.org\">ecoute@atouts.org</a>\n" +
 	                "\t\t\t\t\t\t\t\t\t\t</td>\n" +
-	                "\t\t\t\t\t\t\t\t\t</tr>\n" +
+	                "\t\t\t\t\t\t\t\t\t</tr>\n" +*/
 	                "\t\t\t\t\t\t\t\t</table>\n" +
 	                "\n" +
 	                "\n" +
-	                "\t\t\t\t\t\t\t\t<!-- / Footer -->\n" +
+	                /*"\t\t\t\t\t\t\t\t<!-- / Footer -->\n" +
 	                "\t\t\t\t\t\t\t\t<table class=\"container\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" align=\"center\">\n" +
 	                "\n" +
 	                "\t\t\t\t\t\t\t\t\t<tr>\n" +
@@ -343,7 +343,7 @@ public class EmailService {
 	                "\n" +
 	                "\t\t\t\t\t\t\t\t\t\t\t\t<tr>\n" +
 	                "\t\t\t\t\t\t\t\t\t\t\t\t\t<td style=\"color: #d5d5d5; text-align: center; font-size: 15px; padding: 10px 0 60px 0; line-height: 22px;\">Copyright\n" +
-	                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t&copy; 2020 <a href=\"http://atouts.com\" target=\"_blank\" style=\"text-decoration: none; border-bottom: 1px solid #d5d5d5; color: #d5d5d5;\">ATOUTS-\n" +
+	                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t&copy; 2020 <a href=\"http://atouts.org\" target=\"_blank\" style=\"text-decoration: none; border-bottom: 1px solid #d5d5d5; color: #d5d5d5;\">ATOUTS-\n" +
 	                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tBIEN ETRE</a>.\n" +
 	                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<br />Tout droit réservs</td>\n" +
 	                "\t\t\t\t\t\t\t\t\t\t\t\t</tr>\n" +
@@ -369,7 +369,7 @@ public class EmailService {
 	                "\t\t\t</tr>\n" +
 	                "\t\t</table>\n" +
 	                "\n" +
-	                "\n" +
+	                "\n" +*/
 	                "\t</body>\n" +
 	                "\n" +
 	                "\t</html>";

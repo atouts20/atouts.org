@@ -51,14 +51,22 @@ public class Services extends Bien implements Serializable{
 	}
 
 	public Services(Long id, String nom, String description, String photo, Double prix, Double tBCCV, boolean supr,
-			Groupe proprietaire) {
-		super(id, nom, description, photo, prix, tBCCV, supr, proprietaire);
+			Groupe proprietaire, String localisation) {
+		super(id, nom, description, photo, prix, tBCCV, supr, proprietaire, localisation);
 		// TODO Auto-generated constructor stub
 	}
 
-	public Services(String nom, String description, Double prix, Double tBCCV, Groupe proprietaire) {
-		super(nom, description, prix, tBCCV, proprietaire);
+	public Services(String nom, String description, Double prix, Double tBCCV, Groupe proprietaire, String localisation) {
+		super(nom, description, prix, tBCCV, proprietaire, localisation);
 		// TODO Auto-generated constructor stub
+	}
+	
+	public Services(String nom, String description, Double prix, Double tBCCV, Groupe proprietaire,
+			//AppUser proprietaireUser, double caution) {
+			 String localisation, double caution) {
+		//super(nom, description, prix, tBCCV, proprietaire, proprietaireUser);
+		super(nom, description, prix, tBCCV, proprietaire, localisation);
+		this.caution = caution;
 	}
 
 	public Services(double caution, CommandeService commandeService) {
@@ -68,15 +76,15 @@ public class Services extends Bien implements Serializable{
 	}
 
 	public Services(Long id, String nom, String description, String photo, Double prix, Double tBCCV, boolean supr,
-			Groupe proprietaire, double caution, CommandeService commandeService) {
-		super(id, nom, description, photo, prix, tBCCV, supr, proprietaire);
+			Groupe proprietaire, String localisation, double caution, CommandeService commandeService) {
+		super(id, nom, description, photo, prix, tBCCV, supr, proprietaire, localisation);
 		this.caution = caution;
 		this.commandeService = commandeService;
 	}
 
-	public Services(String nom, String description, Double prix, Double tBCCV, Groupe proprietaire, double caution,
+	public Services(String nom, String description, Double prix, Double tBCCV, Groupe proprietaire, String localisation, double caution,
 			CommandeService commandeService) {
-		super(nom, description, prix, tBCCV, proprietaire);
+		super(nom, description, prix, tBCCV, proprietaire, localisation);
 		this.caution = caution;
 		this.commandeService = commandeService;
 	}

@@ -33,6 +33,47 @@ public interface ProduitRepository extends JpaRepository<Produit, Long>{
 	
 	public Produit findBySuprIsFalseAndActiveIsTrueAndId(Long id);
 
+	//public List<Produit> findBySuprIsFalseAndActiveIsTrueAndProprietaireUser_Id(Long id);
+	
+	
+	
+	
+	
+	
+	
+	//public Page<Produit> findBySuprIsFalseAndActiveIsTrueAndProprietaireUser_IdAndNomLikeIgnoreCase(Pageable pageable,long proprietaires, String nom);
+
+	public Page<Produit> findBySuprIsFalseAndActiveIsTrueAndNomLikeIgnoreCase(Pageable pageable, String nom);
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+    @Query("from Produit c where c.supr=false and c.active=true and c.nom like :x and c.proprietaire in (SELECT groupe FROM Grouper r where r.appUser.id =:id)")
+    		public Page<Produit> listProductByUser(Pageable pageable, @Param("x")String mc, @Param("id")Long id);
+	
+	
+    /*@Query("select c from Produit c where c.nom like :x")
+	public Page<Produit> chercherProduit(@Param("x")String mc, Pageable pageable);*/
+	
+	
+	
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+	
 	public List<Produit> findBySuprIsFalseAndActiveIsFalseAndAccepterIsFalseAndProprietaire_Id(long proprietaire);
 
 	public List<Produit> findBySuprIsFalseAndActiveIsFalseAndAccepterIsTrueAndProprietaire_Id(long proprietaire);

@@ -18,6 +18,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Min;
 
+import org.springframework.format.annotation.NumberFormat;
+import org.springframework.format.annotation.NumberFormat.Style;
+
 import com.aatout.bon.model.Bon;
 import com.aatout.commande.model.Commande;
 import com.aatout.commande.model.CommandeService;
@@ -29,7 +32,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 @Entity
 @Table(name="T_OPERATION")
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="type", discriminatorType=DiscriminatorType.STRING, length=4)
+@DiscriminatorColumn(name="type", discriminatorType=DiscriminatorType.STRING, length=8)
 @JsonTypeInfo( use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes( {
     @Type( name = "DEPO", value = Depot.class ),
@@ -51,12 +54,12 @@ public abstract class Operation extends EntityBaseBean implements Serializable{
 	private Long id;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date dateOp;
+	private Date dateOp = new Date();
 	
 	@Min(value = 0L, message = "The value must be positive")
 	private double montantOp;
 	
-	private String narrative;
+	private String narrative; 
 	
 	private Long badge;
 	
@@ -97,7 +100,7 @@ public abstract class Operation extends EntityBaseBean implements Serializable{
 	public Operation(Double montantOp, Compte compte) {
 		super();
 		this.montantOp = montantOp;
-		this.compte = compte;
+		this.compte = compte;  
 	}
 	
 

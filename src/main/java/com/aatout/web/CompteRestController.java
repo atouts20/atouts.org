@@ -80,6 +80,7 @@ public class CompteRestController {
 	}
 	@GetMapping(value="/mon-compte/{id}")
 	public CompteValeur getMonCompteValeur(@PathVariable Long id){
+		System.out.println(id);
 
 		return compteValeurRepository.findBySuprAndFermerAndActiveAndTransAndAppUserCompte_Id(false, false, true, true, id);
 	}

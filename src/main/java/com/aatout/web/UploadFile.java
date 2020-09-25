@@ -34,6 +34,8 @@ public class UploadFile {
 //	private String UPLOAD_DIR = "/home/chistiane/Documents/JEE/videojee/Upload/SpringBootUploadFile/src/uploadDir/";
 	//private final String UPLOAD_DIR = "C:\\Users\\Safoura\\Pictures\\boo\\aatout\\images\\";
 	private final String UPLOAD_DIR = "/var/www/vhosts/atouts.org/api.atouts.org/images/";
+	
+	//private final String UPLOAD_DIR = "/opt/tomcat/webapps/api.atouts.org/images/";
 
 	
 

@@ -36,4 +36,10 @@ public class PasswordResetDto {
         this.token = token;
     }
 
+	@Override
+	public String toString() {
+		return "PasswordResetDto [password=" + password + ", confirmPassword=" + confirmPassword + ", token=" + token
+				+ "]";
+	}
+
 }

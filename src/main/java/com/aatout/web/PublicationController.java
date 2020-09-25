@@ -119,7 +119,7 @@ public class PublicationController {
 			@PathVariable Long proprietaires){
 		String sortOrder = "desc";
     	Sort sort = new Sort(Direction.fromString(sortOrder), sortBy);
-		return publicationRepository.findByStatusAndSupUserAndAccepterAndRejeterAndCreerAndProprietaire_idAndNomLikeIgnoreCase( new PageRequest(page, size, sort), false, false, true, false, true, proprietaires, "%"+mc+"%");
+		return publicationRepository.findByStatusAndSupUserAndAccepterAndRejeterAndCreerAndProprietaire_idAndNomLikeIgnoreCase( new PageRequest(page, size, sort), false, false, true, false, false, proprietaires, "%"+mc+"%");
 	}
 	
 	/* FIN *** LES METHODES UTILISEE PAR UTILISATEUR */
@@ -265,8 +265,9 @@ public class PublicationController {
 		return publicationRepository.save(e);
 	}
 	
-	@PutMapping(value="/publication-produit-rejeter/{id}")
+	@PostMapping(value="/publication-produit-rejeter/{id}")
 	public Publication produitRejeter(@PathVariable Long id,@RequestBody Publication e){
+		
 		e.setId(id);
 		e.setRejeter(true);
 		return publicationRepository.save(e);

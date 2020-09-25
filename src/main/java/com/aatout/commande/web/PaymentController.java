@@ -153,7 +153,8 @@ public class PaymentController {
 			System.out.println("*************************");
 			
 			});					
-
+			System.out.println("DIKO DIKO DIKO Montant monnaie");
+			System.out.println(mtMn);
 			totalMntMn += mtMn;
 			
 		});

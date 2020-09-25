@@ -75,15 +75,15 @@ public class PasswordForgotController {
 
 			
 
-				String url = "https://atouts.org";
+				//String url = "https://atouts.org";
 			//String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
 			String nom = user.getPrenom() +" "+user.getNom();
-			String msg = "Pour recupere votre compte atouts, veuillez cliquer sur le lien aatout ci-dessous:\n"
-					+ url + "/reset-password?token=" + token.getToken();
+			String msg = "Pour récupérer votre compte atouts, veuillez cliquer sur le lien atouts ci-dessous:\n"
+					+ "https://atouts.org/reset-password?token=" + token.getToken();
 			emailService.sendMailHtml(user.getEmail(), "RECUPERATION MOT DE PASSE", msg, nom);
 			
 
-			return "redirect:/forgot-password?success";
+			return "success";
 		}
 
 		

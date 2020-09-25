@@ -1,4 +1,3 @@
-
 package com.aatout.web;
 
 import com.aatout.dao.BloquerRepository;
@@ -25,6 +24,7 @@ import com.aatout.service.AccountService;
 import com.aatout.service.AccountServiceImpl;
 import com.aatout.service.EmailService;
 import com.aatout.service.MesConstants;
+import com.aatout.payload.LoginRequest;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,9 +48,15 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -64,6 +70,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 @RestController
 public class AccountRestController {
 	
@@ -82,6 +89,9 @@ public class AccountRestController {
 	
 	@Autowired
     ActiveUserStore activeUserStore;
+	
+	@Autowired
+    AuthenticationManager authenticationManager;
 
 	@Autowired
 	private UploadFile uploadFile;
@@ -102,31 +112,7 @@ public class AccountRestController {
 	@Autowired
 	private RoleRepository roleRepository;
 	
-	/*@PostMapping("/register")
-	public AppUser register(@RequestBody RegisterForm userForm) {
-		if(!userForm.getPassword().equals(userForm.getRepassword()))
-			throw new RuntimeException("user existant");
-		AppUser appUser=new AppUser();
-		appUser.setUsername(userForm.getUsername());
-		appUser.setPassword(userForm.getPassword());
-		appUser.setDateNaissance(userForm.getDateNaissance());
-		appUser.setEmail(userForm.getEmail());
-		appUser.setNom(userForm.getNom());
-		appUser.setPrenom(userForm.getPrenom());
-		appUser.setLieu(userForm.getLieu());
-		appUser.setGender(userForm.getGender());
-		appUser.setPhoneNumber(userForm.getPhoneNumber());
-		appUser.setStatus(userForm.getStatus());
-		accountService.saveUser(appUser);
-		accountService.addRoleToUse(userForm.getUsername(), "USER");
-
-		return appUser;
-	}*/
-
-	/*	@RequestMapping(value="/contacts/{username}",method=RequestMethod.GET)
-	public AppUser getAppUser(@PathVariable String username){
-		return accountService.findUserByUsername(username);
-	} */
+	
 	
 	@GetMapping(value="/pays")
 	public List<Pays> getPays(){
@@ -155,6 +141,11 @@ public class AccountRestController {
 
 	@GetMapping("/listUtilisateurs")
 	public List<AppUser> getAppUser(){
+		return userRepository.findBySupprimeIsFalseAndStatusIsFalseAndEnabledIsTrueAndActiveIsTrueAndAccountNonLockedIsTrueAndAdminstratifIsTrue();
+	}
+	
+	@GetMapping("/list-utilisateurs")
+	public List<AppUser> listAppUsers(){
 		return userRepository.findBySupprimeIsFalseAndStatusIsFalseAndEnabledIsTrueAndActiveIsTrueAndAccountNonLockedIsTrueAndAdminstratifIsTrue();
 	}
 	
@@ -217,6 +208,7 @@ public class AccountRestController {
 		
 
 		String fileName = file.getOriginalFilename();
+		
 
 		String modifiedFileName = FilenameUtils.getBaseName(fileName) + "_" +System.currentTimeMillis() + "." +FilenameUtils.getExtension(fileName);
 
@@ -289,25 +281,17 @@ public class AccountRestController {
 		userForm.setSignature(modifiedFileName2);
 		
 		
-		//accountService.saveUser(userForm);
-		//System.out.println("Enregistrement avec Success !!!!");
-		/*if(userForm.getRoles().isEmpty()) {
-			accountService.addRoleToUse(userForm.getUsername(), "USER");
-		}*/
 		
-		userRepository.saveAndFlush(userForm);
-		AppUser test = userRepository.saveAndFlush(userForm);
+		
+		AppUser test = userRepository.save(userForm);
+		//AppUser test = userRepository.saveAndFlush(userForm);
 		System.out.println("Enregistrement avec Success !!!!");
 		
 		if(test != null) {
 			String codePays = userForm.getNationalite().getSub_Type();
 			
 			String codePays1 = userForm.getNationalite().getSub_Type() + userForm.getNationalite().getSommo_Name() ;
-			//System.out.println(codePays);
-			//System.out.println(codePays);
-			//Long idMax = compteRepository.getMax();
-			//System.out.println(idMax);
-			//String vv = 004;
+			
 
 			Long num1 = compteRepository.getMax(codePays1);
 			System.out.println(num1);
@@ -315,10 +299,7 @@ public class AccountRestController {
 				num1 = 0L;
 			}
 			Compte unCompte =  compteRepository.findById(num1); 
-			System.out.println(unCompte);
-			System.out.println("==================== debut");
-			System.out.println(unCompte);
-			System.out.println("==================== fin");
+			
 			
 			long dernierNumCompte; 
 			if(unCompte == null   ) {
@@ -448,7 +429,7 @@ public class AccountRestController {
 			
 			 
 			String nom = userForm.getPrenom() +" "+userForm.getNom();
-			String msg = "Votre numero de compte atouts est :\n"+ cptvl.getNumCompte()+". \n Connectez vous sur <a> www.atouts.com/connexion</a>";
+			String msg = "Votre numero de compte atouts est :\n"+ cptvl.getNumCompte()+". \n Votre code pin est :\n"+ cptvl.getPin()+". \n Connectez vous sur https://www.atouts.org";
 			emailService.sendMailHtml(userForm.getEmail(), "ADHESION REUSSIE", msg, nom);
 			
 			
@@ -814,9 +795,9 @@ public class AccountRestController {
 		emailService.sendEmail(registrationEmail);
 		System.out.println("Un e-mail de confirmation a été envoyé à :" +userForm.getEmail() );*/
 		//String appUrl = request.getScheme() +"://" + request.getServerName() + ":" +request.getServerPort();
-		String appUrl = "https://api.atouts.org";
-
-		String msg = "Pour confirmer votre inscription, veuillez cliquer sur le lien atouts ci-dessous:\n <a>" + appUrl + "/confirm?token=" + userForm.getConfirmationToken()+"</a>";
+		//String appUrl = "https://api.atouts.org";
+//api.atouts.org
+		String msg = "Pour confirmer votre inscription, veuillez cliquer sur le lien atouts ci-dessous:\n"+"https://"+request.getServerName() + "/confirm?token=" + userForm.getConfirmationToken();
 		String nom = userForm.getPrenom() +" "+userForm.getNom();
 		emailService.sendMailHtml(userForm.getEmail(), "CONFIRMATION", msg, nom);
 		
@@ -877,13 +858,13 @@ public class AccountRestController {
 
 
 	}
-	
+
 	@GetMapping("/list-bloquages-by-Utilisateur/{id}")
 	public List<Bloquer> getBloquageByAppUser(@PathVariable Long  id){
 		return bloquerRepository.findByAppUserBloquer_Id(id);
 	}
-	
-	
+
+
 
 	@GetMapping("/listAppUsers")
 	public List<AppUser> getAppUsers(){
@@ -893,74 +874,55 @@ public class AccountRestController {
 	public AppUser getOneAppUser(@PathVariable Long id){
 		return userRepository.listUserById(id);
 	}
-	
-
-	/*@PostMapping("/register")
-	public AppUser register(@RequestBody AppUser userForm) {
-//		if(!userForm.getPassword().equals(userForm.getRepassword()))
-//			throw new RuntimeException("user existant");
-//		else {
-			AppUser appUser=(AppUser) userForm;
-//			// Désactiver l'utilisateur jusqu'à ce qu'il clique sur le lien de confirmation dans l'email
-//		    appUser.setEnabled(false);
-//		    // Générer un jeton de chaîne aléatoire de 36 caractères pour le lien de confirmation
-//		    appUser.setConfirmationToken(UUID.randomUUID().toString());
-//			appUser.setUsername(userForm.getUsername());
-//			appUser.setPassword(userForm.getPassword());
-//			appUser.setDateNaissance(userForm.getDateNaissance());
-//			appUser.setEmail(userForm.getEmail());
-//			appUser.setNom(userForm.getNom());
-//			appUser.setPrenom(userForm.getPrenom());
-//			appUser.setLieu(userForm.getLieu());
-//			appUser.setGender(userForm.getGender());
-//			appUser.setPhoneNumber(userForm.getPhoneNumber());
-//			appUser.setStatus(userForm.getStatus());
-//			appUser.setPhotos(userForm.getPhotos());
-//			appUser.setRoles(roles);
-
-			accountService.saveUser(userForm);
-			//accountService.addRoleToUse(userForm.getUsername(), "USER");
-			String appUrl = request.getScheme() +"://" + request.getServerName() + ":" +request.getServerPort();
-			SimpleMailMessage registrationEmail = new SimpleMailMessage();
-			registrationEmail.setTo(appUser.getEmail());
-			registrationEmail.setSubject("Registration Confirmation");
-			registrationEmail.setText("Pour confirmer votre adresse e-mail, veuillez cliquer sur le lien aatout ci-dessous:\n"
-					+ appUrl + "/confirm?token=" + appUser.getConfirmationToken());
-			// Adresse email de aatout
-			registrationEmail.setFrom("aamadoudiko@gmail.com");
 
 
 
-			emailService.sendEmail(registrationEmail);
-			System.out.println("Un e-mail de confirmation a été envoyé à :" +appUser.getEmail() );
-
-			return appUser;
-
-
-//		}
-
-	}*/
 	@GetMapping("/confirm")
-	public AppUser confirmToken(@RequestParam("token") String token){
+	public  ResponseEntity<String> confirmToken(@RequestParam("token") String token){
 		AppUser appUser = accountService.findByConfirmationToken(token);
 		if (appUser == null) {
 			System.out.println("invalide token");
+			return ResponseEntity.ok("invalide token");
 
 		}else {
 			System.out.println("valide token");
 			Calendar cal = Calendar.getInstance();
-			if ((appUser.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
+			if ((appUser.getDateExpiration().getTime() - cal.getTime().getTime()) <= 0) {
 
-				System.err.println("Votre token est expiré veillez reprendre");
+				return ResponseEntity.ok("Votre token est expiré veillez reprendre. ecoute@atouts.org pour plus information");
 			} else {
 				// Set user to enabled
 				appUser.setEnabled(true);
-				accountService.saveUser(appUser);
+				userRepository.saveAndFlush(appUser);
+				return ResponseEntity.ok("Vous avez correctement vérifié votre adresse e-mail. <a href=\"https://atouts.org/connexion\">Connexion</a>");
+
 			}		
 
 		}
-		return appUser;
 	}
+
+	
+	/*@GetMapping(value="/confirm")
+	    public ModelAndView confirmUserAccount(ModelAndView modelAndView, @RequestParam("token")String token)
+	    {
+	        //ConfirmationToken token = confirmationTokenRepository.findByConfirmationToken(confirmationToken);
+			AppUser appUser = accountService.findByConfirmationToken(token);
+	        if(appUser != null)
+	        {
+	        	appUser.setEnabled(true);
+				accountService.saveUser(appUser);
+	            modelAndView.setViewName("accountVerified");
+	        }
+	        else
+	        {
+	            modelAndView.addObject("message","The link is invalid or broken!");
+	            modelAndView.setViewName("error");
+	        }
+
+	        return modelAndView;
+    }*/	
+	
+	
 	/*@PostMapping("/confirm")
 	public AppUser finalisationRegister(@RequestParam Map<String, String> requestParams ) {
 		// Find the user associated with the reset token
@@ -1020,6 +982,51 @@ public class AccountRestController {
         model.addAttribute("users", activeUserStore.getUsers());
         return "users";
     }
+    
+    
+    /*@PostMapping("/login")
+    public LoginRequest authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {      
+        
+        return loginRequest;
+    }*/
 
-	
+    
+    /* Les Méthode Statistique */
+    @GetMapping(value = "/total-user")
+    public List<AppUser> nombreUser() {
+    	return userRepository.findAll();
+    }
+    @GetMapping(value = "/total-user-confirme")
+    public List<AppUser> nombreUserConfirme() {
+    	return userRepository.findByEnabledIsTrue();
+    }
+    @GetMapping(value = "/total-user-non-confirme")
+    public List<AppUser> nombreUserNonConfirme() {
+    	return userRepository.findByEnabledIsFalse();
+    }
+    
+    
+    
+    @PostMapping("/urgent")
+	@Transactional
+	public AppUser urgent(@RequestBody AppUser userForm ) {
+    	
+		userForm.setDateExpiration(new Date(System.currentTimeMillis()+MesConstants.EXPIRATION_TIME_TOKEN));
+		
+		userForm.setConfirmationToken(UUID.randomUUID().toString());
+		accountService.saveUser(userForm);
+		
+		System.out.println("Enregistrement avec Success !!!!");
+		if(userForm.getRoles().isEmpty()) {
+			accountService.addRoleToUse(userForm.getUsername(), "USER");
+		}
+		userForm.setEnabled(true);
+		userRepository.saveAndFlush(userForm);  
+		
+		String msg = "Pour confirmer votre inscription, veuillez cliquer sur le lien atouts ci-dessous:\n"+"https://"+request.getServerName() + "/confirm?token=" + userForm.getConfirmationToken();
+		String nom = userForm.getPrenom() +" "+userForm.getNom();
+		emailService.sendMailHtml(userForm.getEmail(), "CONFIRMATION", msg, nom);	
+		
+		return userForm;
+	}	 
 }

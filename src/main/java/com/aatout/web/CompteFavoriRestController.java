@@ -22,14 +22,20 @@ public class CompteFavoriRestController {
 	
 	@GetMapping(value = "/list/{id}")
 	public List<CompteFavori> getCompteFavoris(@PathVariable Long id) {
-		return compteFavoriDao.findByStatus(false);
+		return compteFavoriDao.findByStatusAndAppUserCompte_id(false, id);
 	}
 
 	@PostMapping(value = "/save")
-	public CompteFavori save(@RequestBody CompteFavori compteFavori) {
+	public CompteFavori save(@RequestBody CompteFavori compteFavori) { 
 		System.out.println(compteFavori);
-
-		return	compteFavoriDao.saveAndFlush(compteFavori);
+		System.out.println(compteFavori.getAppUserCompte().getId());
+		CompteFavori unCompteFavori = compteFavoriDao.findByStatusAndNumCompteAndAppUserCompte_id(false, compteFavori.getNumCompte(), compteFavori.getAppUserCompte().getId());
+		if(unCompteFavori != null) { 
+			return null;
+		} else {
+			return	compteFavoriDao.saveAndFlush(compteFavori);
+		}
+		
 	}
 
 	@PostMapping(value = "/delete")

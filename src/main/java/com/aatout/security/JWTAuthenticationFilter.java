@@ -47,13 +47,8 @@ private AuthenticationManager authenticationManager;
 			System.out.println(appUser);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
-		}
+		}	
 		
-		System.out.println("********************");
-		System.out.println("username: "+appUser.getUsername());
-		System.out.println("password: "+appUser.getPassword());
-		System.out.println("********************");
-		System.out.println("connexion avec succes !!!!");
 		
 		return authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(appUser.getUsername(), appUser.getPassword()));

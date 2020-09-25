@@ -60,10 +60,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		http.authorizeRequests()
 		.antMatchers(
-				"/forgot-password/**",
+				"/forgot-password/**","/api/v1/sms/**",
 				"/reset-password/**", "/pays/**", "/metier/**","/user-names/**").permitAll()
 		.antMatchers("/login/**","/swagger-ui.html/**","/listEchanges/**", "/downloadFile/{fileId}/**", 
-				"/register/**", "/confirm", "/confirm", "/produits-page","/services-page", "/echanges-page", "/pays/*", "/metier/*").permitAll()
+				"/register/**", "/confirm", "/detail-echange/{id}/**", "/detail-produit/{id}/**","/detail-service/{id}/**","/produits-page/**","/services-page/**", "/echanges-page", "/pays/*", "/metier/*").permitAll()
 		.antMatchers("/",
 				"/favicon.ico",
 				"/**/*.png",

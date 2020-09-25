@@ -16,6 +16,7 @@ import com.aatout.dao.CompteRepository;
 import com.aatout.dao.OperationAutorisationDao;
 import com.aatout.dao.OperationRepository;
 import com.aatout.model.Compte;
+import com.aatout.model.CompteMonnaie;
 import com.aatout.model.CompteValeur;
 import com.aatout.model.Depot;
 import com.aatout.model.DepotEn;
@@ -54,12 +55,19 @@ public class OperationImplement implements OperationService {
 	public void verser(String numCompte, double montant, double balance, String narrative, Long badge, String createBy, String autorisedBy) {
 		
 		Compte unCompte = consulterCompte(numCompte);
+		if (unCompte.getAatout() == true) {
+			Depot depot = new Depot(null, new Date(), montant, narrative, badge, unCompte );
+			depot.setCompteAtout(true);
+			depot.setBalanceInit(unCompte.getSolde());
+			depot.setBalance(unCompte.getSolde() + montant);
+			operationRepository.save(depot); 
+		} else {
+			Depot depot = new Depot(null, new Date(), montant, narrative, badge, unCompte );
+			depot.setBalanceInit(unCompte.getSolde());
+			depot.setBalance(unCompte.getSolde() + montant);
+			operationRepository.save(depot);
+		}	
 		
-		Depot depot = new Depot(null, new Date(), montant, narrative, badge, unCompte );
-		depot.setBalanceInit(unCompte.getSolde());
-		depot.setBalance(unCompte.getSolde() + montant);
-		System.out.println(depot); 
-		operationRepository.save(depot);
 		
 		unCompte.setSolde(unCompte.getSolde() + montant);
 		
@@ -75,10 +83,19 @@ public class OperationImplement implements OperationService {
 			facilitesCaisse = ((CompteValeur) unCompte).getProvision();
 		if(unCompte.getSolde() + facilitesCaisse < montant)
 			throw new RuntimeException("Solde insuffisant");
-		Retrait retrait = new Retrait(null, new Date(), montant, narrative, badge, unCompte);
-		retrait.setBalanceInit(unCompte.getSolde());
-		retrait.setBalance(unCompte.getSolde() - montant);
-		operationRepository.save(retrait);
+		if(unCompte.getAatout() == true) {
+			Retrait retrait = new Retrait(null, new Date(), montant, narrative, badge, unCompte);
+			retrait.setCompteAtout(true);
+			retrait.setBalanceInit(unCompte.getSolde());
+			retrait.setBalance(unCompte.getSolde() - montant);
+			operationRepository.save(retrait);
+		} else {
+			Retrait retrait = new Retrait(null, new Date(), montant, narrative, badge, unCompte);
+			retrait.setBalanceInit(unCompte.getSolde());
+			retrait.setBalance(unCompte.getSolde() - montant);
+			operationRepository.save(retrait);
+		}
+		
 		unCompte.setSolde(unCompte.getSolde() - montant);
 		compteRepository.saveAndFlush(unCompte);
 		
@@ -153,13 +170,25 @@ public class OperationImplement implements OperationService {
 	public void verserTr(String numCompte1, double montant, long id) {
 		Compte unCompte = consulterCompte(numCompte1);
 		Commande uneCommande = commandeDao.findOne(id);
-		DepotTR depot = new DepotTR();
-		depot.setDateOp(new Date());
-		depot.setMontantOp(montant);
-		depot.setCompte(unCompte);
-		depot.setCommande(uneCommande);
-		operationTransactionDao.save(depot);
-
+		if(unCompte.getAatout() == true) {
+			DepotTR depot = new DepotTR();
+			depot.setCompteAtout(true);
+			depot.setDateOp(new Date());
+			depot.setMontantOp(montant);
+			depot.setCompte(unCompte);
+			depot.setCommande(uneCommande);
+			operationTransactionDao.save(depot);
+			
+		} else {
+			DepotTR depot = new DepotTR();
+			depot.setDateOp(new Date());
+			depot.setMontantOp(montant);
+			depot.setCompte(unCompte);
+			depot.setCommande(uneCommande);
+			operationTransactionDao.save(depot);
+			
+		}
+		
 		unCompte.setSolde(unCompte.getSolde() + montant);
 
 		compteRepository.saveAndFlush(unCompte);		
@@ -168,13 +197,27 @@ public class OperationImplement implements OperationService {
 	@Override
 	public void verserServiceTr(String numCompte1, double montant, long id) {
 		Compte unCompte = consulterCompte(numCompte1);
-		Commande uneCommande = commandeDao.findOne(id);
-		DepotTR depot = new DepotTR();
-		depot.setDateOp(new Date());
-		depot.setMontantOp(montant);
-		depot.setCompte(unCompte);
-		depot.setCommande(uneCommande);
-		operationTransactionDao.save(depot);
+		//Commande uneCommande = commandeDao.findOne(id);
+		CommandeService uneCommande = commandeServiceDao.findOne(id);
+		if (unCompte.getAatout() == true) {
+			DepotTR depot = new DepotTR();
+			depot.setCompteAtout(true);
+			depot.setDateOp(new Date());
+			depot.setMontantOp(montant);
+			depot.setCompte(unCompte);
+			//depot.setCommande(uneCommande);
+			depot.setCommandeService(uneCommande);
+			operationTransactionDao.save(depot);
+		} else {
+			DepotTR depot = new DepotTR();
+			depot.setDateOp(new Date());
+			depot.setMontantOp(montant);
+			depot.setCompte(unCompte);
+			//depot.setCommande(uneCommande);
+			depot.setCommandeService(uneCommande);
+			operationTransactionDao.save(depot);
+		}
+		
 
 		unCompte.setSolde(unCompte.getSolde() + montant);
 
@@ -185,8 +228,10 @@ public class OperationImplement implements OperationService {
 	public void retirerTr(String numCompte1, double montant, long id) {
 		Compte unCompte = consulterCompte(numCompte1);
 		Commande uneCommande = commandeDao.findOne(id);
-		double facilitesCaisse = 0;
-		if(unCompte instanceof CompteValeur)
+		double facilitesCaisse = 0;		
+		
+		if(unCompte instanceof CompteValeur) {
+
 			facilitesCaisse = ((CompteValeur) unCompte).getProvision();
 		if(unCompte.getSolde() + facilitesCaisse < montant)
 			throw new RuntimeException("Solde insuffisant");
@@ -198,7 +243,22 @@ public class OperationImplement implements OperationService {
 		retrait.setCommande(uneCommande);
 		operationTransactionDao.save(retrait);
 		unCompte.setSolde(unCompte.getSolde() - montant);
-		compteRepository.saveAndFlush(unCompte);		
+		compteRepository.saveAndFlush(unCompte);	
+		} else {
+
+		facilitesCaisse = ((CompteMonnaie) unCompte).getProvision();
+		
+		RetraitTR retrait = new RetraitTR();
+		
+		retrait.setDateOp(new Date());
+		retrait.setMontantOp(montant);
+		retrait.setCompte(unCompte);
+		retrait.setCommande(uneCommande);
+		operationTransactionDao.save(retrait);
+		unCompte.setSolde(unCompte.getSolde() - montant);
+		compteRepository.saveAndFlush(unCompte);	
+		}
+				
 	}
 
 	@Override
@@ -206,12 +266,34 @@ public class OperationImplement implements OperationService {
 		Compte unCompte = consulterCompte(numCompte1);
 		CommandeService uneCommandeService = commandeServiceDao.findOne(id);
 		double facilitesCaisse = 0;
+		
 		if(unCompte instanceof CompteValeur) {
 			facilitesCaisse = ((CompteValeur) unCompte).getProvision();
 			if(unCompte.getSolde() + facilitesCaisse < montant)
 				throw new RuntimeException("Solde insuffisant");
+		
+		if (unCompte.getAatout() == true) {
+			RetraitTR retrait = new RetraitTR();
+			retrait.setCompteAtout(true);
+			retrait.setDateOp(new Date());
+			retrait.setMontantOp(montant);
+			retrait.setCompte(unCompte);
+			retrait.setCommandeService(uneCommandeService);
+			operationTransactionDao.save(retrait);
+		} else {
+			RetraitTR retrait = new RetraitTR();	
+			retrait.setDateOp(new Date());
+			retrait.setMontantOp(montant);
+			retrait.setCompte(unCompte);
+			retrait.setCommandeService(uneCommandeService);
+			operationTransactionDao.save(retrait);
 		}
 		
+		unCompte.setSolde(unCompte.getSolde() - montant);
+		compteRepository.saveAndFlush(unCompte);
+		} else {
+			facilitesCaisse = ((CompteMonnaie) unCompte).getProvision();
+					
 		RetraitTR retrait = new RetraitTR();	
 		retrait.setDateOp(new Date());
 		retrait.setMontantOp(montant);
@@ -219,7 +301,8 @@ public class OperationImplement implements OperationService {
 		retrait.setCommandeService(uneCommandeService);
 		operationTransactionDao.save(retrait);
 		unCompte.setSolde(unCompte.getSolde() - montant);
-		compteRepository.saveAndFlush(unCompte);		
+		compteRepository.saveAndFlush(unCompte);
+		}
 	}
 
 	@Override
@@ -244,17 +327,31 @@ public class OperationImplement implements OperationService {
 	public void verserBon(String numCompte, double montant, double balance, Long badge, String narrative,
 			String createBy, Bon bon) {
 		Compte unCompte = consulterCompte(numCompte);
+		if (unCompte.getAatout() == true) {
+			EmissionBon emissionBon = new EmissionBon();
+			emissionBon.setCompteAtout(true);
+			emissionBon.setBon(bon);
+			emissionBon.setMontantOp(montant);
+			emissionBon.setBadge(badge);
+			emissionBon.setNarrative(narrative);
+			emissionBon.setCreateBy(createBy);
+			emissionBon.setCompte(unCompte);
+			emissionBon.setBalance(balance);
+			
+			operationRepository.save(emissionBon);
+		} else {
+			EmissionBon emissionBon = new EmissionBon();
+			emissionBon.setBon(bon);
+			emissionBon.setMontantOp(montant);
+			emissionBon.setBadge(badge);
+			emissionBon.setNarrative(narrative);
+			emissionBon.setCreateBy(createBy);
+			emissionBon.setCompte(unCompte);
+			emissionBon.setBalance(balance);
+			
+			operationRepository.save(emissionBon);
+		}
 		
-		EmissionBon emissionBon = new EmissionBon();
-		emissionBon.setBon(bon);
-		emissionBon.setMontantOp(montant);
-		emissionBon.setBadge(badge);
-		emissionBon.setNarrative(narrative);
-		emissionBon.setCreateBy(createBy);
-		emissionBon.setCompte(unCompte);
-		emissionBon.setBalance(balance);
-		
-		operationRepository.save(emissionBon);
 		
 		unCompte.setSolde(unCompte.getSolde() + montant);
 		
@@ -271,16 +368,31 @@ public class OperationImplement implements OperationService {
 			facilitesCaisse = ((CompteValeur) unCompte).getProvision();
 		if(unCompte.getSolde() + facilitesCaisse < montant)
 			throw new RuntimeException("Solde insuffisant");
-		EncaisseBon encaisseBon = new EncaisseBon();
-		encaisseBon.setBon(bon);
-		encaisseBon.setMontantOp(montant/1.01);
-		encaisseBon.setBadge(badge);
-		encaisseBon.setNarrative(narrative);  
-		encaisseBon.setCreateBy(createBy);
-		encaisseBon.setCompte(unCompte);
-		encaisseBon.setBalance(balance);
+		if (unCompte.getAatout() == true) {
+			EncaisseBon encaisseBon = new EncaisseBon();
+			encaisseBon.setCompteAtout(true);
+			encaisseBon.setBon(bon);
+			encaisseBon.setMontantOp(montant/1.01);
+			encaisseBon.setBadge(badge);
+			encaisseBon.setNarrative(narrative);  
+			encaisseBon.setCreateBy(createBy);
+			encaisseBon.setCompte(unCompte);
+			encaisseBon.setBalance(balance);
+			
+			operationRepository.save(encaisseBon);
+		} else {
+			EncaisseBon encaisseBon = new EncaisseBon();
+			encaisseBon.setBon(bon);
+			encaisseBon.setMontantOp(montant/1.01);
+			encaisseBon.setBadge(badge);
+			encaisseBon.setNarrative(narrative);  
+			encaisseBon.setCreateBy(createBy);
+			encaisseBon.setCompte(unCompte);
+			encaisseBon.setBalance(balance);
+			
+			operationRepository.save(encaisseBon);
+		}
 		
-		operationRepository.save(encaisseBon);
 		unCompte.setSolde(unCompte.getSolde() - montant);
 		compteRepository.saveAndFlush(unCompte);
 		

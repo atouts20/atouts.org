@@ -48,15 +48,15 @@ public abstract class Bien implements Serializable{
 	
 	private String photo;
 	
-	private Double prix;
+	private Double prix = 0.0;
 	
-	private Double tBCCV;
+	private Double tBCCV = 0.0;
 	
 	private boolean supr;
 	
 	private boolean active;
 	
-	private boolean accepter;
+	private boolean accepter = true;
 	
 	@Column(nullable = false, updatable = false)
 	@Temporal(TemporalType.TIMESTAMP)
@@ -73,6 +73,14 @@ public abstract class Bien implements Serializable{
 	
 	@ManyToOne
 	private Groupe proprietaire;
+	
+	@ManyToOne
+	private Categorie categorie;
+	
+	/*@ManyToOne
+	private AppUser proprietaireUser;*/
+
+	private String localisation;
 	
 	
 	/*@OneToMany(mappedBy="bien")
@@ -192,9 +200,27 @@ public abstract class Bien implements Serializable{
 	public void setProprietaire(Groupe proprietaire) {
 		this.proprietaire = proprietaire;
 	}
+	
+	
+	public String getLocalisation() {
+		return localisation;
+	}
+
+	public void setLocalisation(String localisation) {
+		this.localisation = localisation;
+	}
+
+	/*public AppUser getProprietaireUser() {
+		return proprietaireUser;
+	}
+
+	public void setProprietaireUser(AppUser proprietaireUser) {
+		this.proprietaireUser = proprietaireUser;
+	}*/
 
 	public Bien(Long id, String nom, String description, String photo, Double prix, Double tBCCV, boolean supr,
-			Groupe proprietaire) {
+			//Groupe proprietaire, AppUser proprietaireUser) {
+			Groupe proprietaire, String localisation) {
 		super();
 		this.id = id;
 		this.nom = nom;
@@ -204,15 +230,28 @@ public abstract class Bien implements Serializable{
 		this.tBCCV = tBCCV;
 		this.supr = supr;
 		this.proprietaire = proprietaire;
+		this.localisation = localisation;
+		//this.proprietaireUser = proprietaireUser;
 	}
 
-	public Bien(String nom, String description, Double prix, Double tBCCV, Groupe proprietaire) {
+	//public Bien(String nom, String description, Double prix, Double tBCCV, Groupe proprietaire, AppUser proprietaireUser) {
+	public Bien(String nom, String description, Double prix, Double tBCCV, Groupe proprietaire, String localisation) {
 		super();
 		this.nom = nom;
 		this.description = description;
 		this.prix = prix;
 		this.tBCCV = tBCCV;
 		this.proprietaire = proprietaire;
+		this.localisation = localisation;
+		//this.proprietaireUser = proprietaireUser;
+	}
+
+	public Categorie getCategorie() {
+		return categorie;
+	}
+
+	public void setCategorie(Categorie categorie) {
+		this.categorie = categorie;
 	}
 
 	

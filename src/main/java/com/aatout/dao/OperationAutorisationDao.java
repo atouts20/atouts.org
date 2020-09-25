@@ -15,5 +15,7 @@ public interface OperationAutorisationDao extends JpaRepository<OperationAutoris
 	
     @Query("select MAX(id) from OperationAutorisation")
 	public Long getMaxEn();
+    
+     
 
 }

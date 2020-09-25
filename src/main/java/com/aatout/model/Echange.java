@@ -33,11 +33,11 @@ public class Echange implements Serializable {
 	
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	
+	@Column(unique=true)
 	private String nom;
-	
+	@Column(unique=true)
 	private String description;
-	
+	@Column(unique=true)
 	private String photo;
 	
 	private String tel;
@@ -63,7 +63,19 @@ public class Echange implements Serializable {
 	*/
 	@ManyToOne
 	private AppUser proprietaires;
+	
+	private String localisation;
+	
+	
 
+
+	public String getLocalisation() {
+		return localisation;
+	}
+
+	public void setLocalisation(String localisation) {
+		this.localisation = localisation;
+	}
 
 	public Long getId() {
 		return id;

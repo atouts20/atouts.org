@@ -152,9 +152,9 @@ public class CommandeController {
 		
 		//List<DetailPanier> detailPaniers  = detailPanierDao.findByIdUser(client.getId());
 
-		long pin = commandeForm.getClient().getPin();
+		String pin = commandeForm.getClient().getPin();
 
-		CompteValeur unCompteValeur = compteValeurRepository.findByPin(pin);
+		CompteValeur unCompteValeur = compteValeurRepository.findByPinIs(pin);
 		System.out.println("ttttttttttttttt");
 		System.out.println(unCompteValeur);
 		CompteValeur compteValeurClient = compteRepository.findBySuprAndFermerAndActiveAndAppUserCompte(false, false, true, client);
@@ -273,6 +273,7 @@ public class CommandeController {
 							}
 							
 							commande.setTotalAmount(total);
+							commande.setContreParti(totalMntMnCMD);
 							commandeDao.saveAndFlush(commande);	
 
 							operationService.retirerTr(compteValeurClient.getNumCompte(), totalMntVlCMD, commande.getId());
@@ -280,7 +281,8 @@ public class CommandeController {
 							
 							uneCommandeForm.setDate(commande.getDate());
 							uneCommandeForm.setId(commande.getId());
-							//return uneCommandeForm;
+							
+							//return uneCommandeForm; 
 							
 							
 							

@@ -8,7 +8,7 @@ public class Client {
 	private String username;
 	private String livraison;
 	private String detail;
-	private int pin;
+	private String pin;
 	
 	public Client() {
 		super();
@@ -56,10 +56,10 @@ public class Client {
 	public void setDetail(String detail) {
 		this.detail = detail;
 	}
-	public int getPin() {
+	public String getPin() {
 		return pin;
 	}
-	public void setPin(int pin) {
+	public void setPin(String pin) {
 		this.pin = pin;
 	}
 	@Override

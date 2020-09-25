@@ -41,7 +41,7 @@ public class Grouper implements Serializable {
 	 
 	 
 	 @Temporal(TemporalType.TIMESTAMP)
-		@LastModifiedDate
+		@LastModifiedDate 
 		private Date updateAt;
 		
 		

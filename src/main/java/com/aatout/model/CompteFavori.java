@@ -1,13 +1,17 @@
 package com.aatout.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -26,19 +30,17 @@ public class CompteFavori extends EntityBaseBean implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(unique = true)
 	private String numCompte;
 	private String nom;
 	private String prenom;
 	private String adresse;
 	private String tel;
-	@Email
-	@Column(unique = true)
+	@Email 
 	private String email;
 	@ManyToOne
 	private AppUser appUserCompte;
 	
-	private Boolean supr = false;
+	private Boolean supr = false; 
  
 	public CompteFavori() {
 		// TODO Auto-generated constructor stub 
@@ -64,7 +66,7 @@ public class CompteFavori extends EntityBaseBean implements Serializable {
 	public void setNumCompte(String numCompte) {
 		this.numCompte = numCompte;
 	}
-	@JsonIgnore
+	
 	public AppUser getAppUserCompte() {
 		return appUserCompte;
 	}
@@ -124,8 +126,10 @@ public class CompteFavori extends EntityBaseBean implements Serializable {
 	@Override
 	public String toString() {
 		return "CompteFavori [id=" + id + ", numCompte=" + numCompte + ", nom=" + nom + ", prenom=" + prenom
-				+ ", adresse=" + adresse + ", tel=" + tel + ", email=" + email + ", supr=" + supr + "]";
+				+ ", adresse=" + adresse + ", tel=" + tel + ", email=" + email + ", appUserCompte=" + appUserCompte
+				+ ", supr=" + supr + "]";
 	}
+	
 	
 
 }

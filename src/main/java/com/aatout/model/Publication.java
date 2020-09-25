@@ -46,8 +46,17 @@ public class Publication extends EntityBaseBean implements Serializable {
 	@ManyToOne
 	private AppUser proprietaire;
 	
+	private String localisation;
 	
-	
+		
+
+	public String getLocalisation() {
+		return localisation;
+	}
+
+	public void setLocalisation(String localisation) {
+		this.localisation = localisation;
+	}
 
 	public double gettBCCV() {
 		return tBCCV;

@@ -183,9 +183,9 @@ public class CommandeServiceController {
 		String livraison = commandeServiceForm.getClient().getLivraison();
 		String detail = commandeServiceForm.getClient().getDetail();
 
-		long pin = commandeServiceForm.getClient().getPin();
+		String pin = commandeServiceForm.getClient().getPin();
 		System.out.println(pin);
-		CompteValeur unCompteValeur = compteValeurRepository.findByPin(pin);
+		CompteValeur unCompteValeur = compteValeurRepository.findByPinIs(pin);
 		System.out.println("ttttttttttttttt");
 		System.out.println(unCompteValeur);
 		CompteValeur compteValeurClient = compteRepository.findBySuprAndFermerAndActiveAndAppUserCompte(false, false, true, client);

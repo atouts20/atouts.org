@@ -50,9 +50,9 @@ public class Produit extends Bien implements Serializable{
 	}
 
 
-	public Produit(String nom, String description, Double prix, Double tBCCV, Groupe proprietaire, Double stock,
+	public Produit(String nom, String description, Double prix, Double tBCCV, Groupe proprietaire, String localisation, Double stock,
 			Double stockAlert) {
-		super(nom, description, prix, tBCCV, proprietaire);
+		super(nom, description, prix, tBCCV, proprietaire, localisation);
 		this.stock = stock;
 		this.stockAlert = stockAlert;
 	}

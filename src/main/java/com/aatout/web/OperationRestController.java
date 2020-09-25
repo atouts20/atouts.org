@@ -7,25 +7,35 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.aatout.commande.dao.CommandeDao;
+import com.aatout.commande.dao.CommandeServiceDao;
+import com.aatout.commande.model.Commande;
+import com.aatout.commande.model.CommandeService;
 import com.aatout.dao.CompteRepository;
 import com.aatout.dao.DepotRepository;
+import com.aatout.dao.DepotTrDao;
 import com.aatout.dao.OperationAutorisationDao;
 import com.aatout.dao.OperationRepository;
 import com.aatout.dao.RetraitRepository;
+import com.aatout.dao.RetraitTrDao;
 import com.aatout.enums.StatusName;
 import com.aatout.model.Compte;
 import com.aatout.model.Depot;
+import com.aatout.model.DepotTR;
 import com.aatout.model.Operation;
 import com.aatout.model.OperationAutorisation;
 import com.aatout.model.Retrait;
+import com.aatout.model.RetraitTR;
 import com.aatout.operation.OperationService;
 import com.aatout.payload.OperationForm;
 
@@ -49,6 +59,18 @@ public class OperationRestController {
 
 	@Autowired
 	private CompteRepository compteRepository;
+	
+	@Autowired
+	private DepotTrDao depotTrDao;
+	
+	@Autowired
+	private RetraitTrDao retraitTrDao;
+
+	@Autowired
+	private CommandeDao commandeDao;
+	
+	@Autowired
+	private CommandeServiceDao commandeServiceDao;
 
 
 	@GetMapping(value="/list")
@@ -59,6 +81,12 @@ public class OperationRestController {
 	
 	@GetMapping(value="/list-en")
 	public List<OperationAutorisation> getOperationsEn(){
+		return opAutoDao.findByStatusAndSuprUserAndEtat(false, false, StatusName.NON_AUTORISEE);
+		//return operationRepository.findBySuprIsFalse();
+	}
+	
+	@GetMapping(value="/list-ens")
+	public List<OperationAutorisation> getOperationsEns(){
 		return opAutoDao.findAll();
 		//return operationRepository.findBySuprIsFalse();
 	}
@@ -92,6 +120,38 @@ public class OperationRestController {
 
 		return retraitRepository.findBySuprIsFalse();
 	}
+	
+	//get depots tr et retrait tr by commande
+	
+			@GetMapping(value="/list-depotTr-by-commande/{idCommande}")
+			public List<DepotTR> getDepotTrByCommande(@PathVariable Long idCommande){
+				Commande commande= commandeDao.findById(idCommande);
+
+				return depotTrDao.findByCommande(commande);
+			}
+
+
+			@GetMapping(value="/list-retraitTr-by-commande/{idCommande}")
+			public List<RetraitTR> getRetraitTrByCommande(@PathVariable Long idCommande){
+				Commande commande= commandeDao.findById(idCommande);
+
+				return retraitTrDao.findByCommande(commande);
+			}
+			
+			
+			/*@GetMapping(value="/list-retraitTr-by-commande-service/{idCommandeService}")
+			public List<RetraitTR> getRetraitTrByCommandeService(@PathVariable Long idCommandeService){
+				CommandeService commandeService= commandeServiceDao.findById(idCommandeService);
+
+				return retraitTrDao.findByCommandeService(commandeService);
+			}*/
+			
+			@GetMapping(value="/list-retraitTr-by-commande-service/{idCommandeService}")
+			public List<Operation> getRetraitTrByCommandeService(@PathVariable Long idCommandeService){
+				CommandeService commandeService= commandeServiceDao.findById(idCommandeService);
+
+				return operationRepository.findByCommandeService(commandeService);
+			}
 
 
 
@@ -264,15 +324,13 @@ public class OperationRestController {
 	public OperationForm saveOperationUser(@RequestBody OperationForm operationForm){
 		
 		//Random rcd = new Random();
+		System.out.println(operationForm.getNumCompte());
+		System.out.println(operationForm.getNumCompte2());
 		Long idMax =  operationRepository.getMax();
-		
-		System.out.println(idMax); 
-		
+		Long badge = 0L;
 		Operation operation =  operationRepository.findBySuprIsFalseAndId(idMax);
 		
-		Long badge = 0L;
-		
-		if (operation == null ) {
+		if (operation == null ) { 
 			badge = 1001L;
 		}else {
 			badge = operation.getBadge() + 1;
@@ -282,7 +340,7 @@ public class OperationRestController {
 		try{ 
 			
 			if (operationForm.getType().equals("VIRE")){
-				operationService.virementUser(operationForm.getNumCompte(), operationForm.getNumCompte2(), operationForm.getMontantOp(),  operationForm.getNarrative(), operationForm.getBadge(), operationForm.getCreateBy(), operationForm.getAutorisedBy());
+				operationService.virementUser(operationForm.getNumCompte(), operationForm.getNumCompte2(), operationForm.getMontantOp(),  operationForm.getNarrative(), badge, operationForm.getCreateBy(), operationForm.getAutorisedBy());
 			}
 		} catch(Exception e) {
 			//model.addAttribute("error", e);
@@ -315,6 +373,7 @@ public class OperationRestController {
 		System.out.println(idMax); 
 		
 		Operation operation =  operationRepository.findBySuprIsFalseAndId(idMax);
+		//System.out.println("bbbhhhhh:"+operationForm.getId());
 		
 		Long badge = 0L;
 		
@@ -323,22 +382,23 @@ public class OperationRestController {
 		}else {
 			badge = operation.getBadge() + 1;
 		}
-		if (operationForm.getId() !=0) {
+		/*if (operationForm.getId() ==0) {
+			
 			OperationAutorisation op = opAutoDao.findByStatusIsFalseAndSuprUserIsFalseAndId(operationForm.getId());
+			System.out.println("bbbhhhhh:"+op);
 			op.setEtat(StatusName.VALIDEE);
 			opAutoDao.saveAndFlush(op); 			
-		}
-		
-		
+		}*/
+				
 		try{ 
 			if(operationForm.getType().equals("DEPO")){
-				operationService.augmenter(operationForm.getNumCompte(), operationForm.getNumCompte2(), operationForm.getMontantOp(), operationForm.getNarrative(), operationForm.getBadge(), operationForm.getCreateBy(), operationForm.getAutorisedBy());
+				operationService.augmenter(operationForm.getNumCompte(), operationForm.getNumCompte2(), operationForm.getMontantOp(), operationForm.getNarrative(), badge, operationForm.getCreateBy(), operationForm.getAutorisedBy());
 			}
 			else if(operationForm.getType().equals("RETR")){
-				operationService.diminuer(operationForm.getNumCompte(), operationForm.getNumCompte2(), operationForm.getMontantOp(), operationForm.getNarrative(), operationForm.getBadge(), operationForm.getCreateBy(), operationForm.getAutorisedBy());
+				operationService.diminuer(operationForm.getNumCompte(), operationForm.getNumCompte2(), operationForm.getMontantOp(), operationForm.getNarrative(), badge, operationForm.getCreateBy(), operationForm.getAutorisedBy());
 			} 
 			if (operationForm.getType().equals("VIRE")){
-				operationService.virement(operationForm.getNumCompte(), operationForm.getNumCompte2(), operationForm.getMontantOp(),  operationForm.getNarrative(), operationForm.getBadge(), operationForm.getCreateBy(), operationForm.getAutorisedBy());
+				operationService.virement(operationForm.getNumCompte(), operationForm.getNumCompte2(), operationForm.getMontantOp(),  operationForm.getNarrative(), badge, operationForm.getCreateBy(), operationForm.getAutorisedBy());
 			}
 		} catch(Exception e) {
 			//model.addAttribute("error", e);
@@ -467,8 +527,12 @@ public class OperationRestController {
 	
 	@PostMapping(value="/valide-operation")
 	public OperationAutorisation finOperation(@RequestBody OperationAutorisation operationAutorisation){
+		
 		OperationAutorisation op = opAutoDao.findByStatusIsFalseAndSuprUserIsFalseAndId(operationAutorisation.getId());
+		System.out.println("///////");
+		System.out.println(op);
 		op.setEtat(StatusName.VALIDEE);
+	
 		return opAutoDao.saveAndFlush(op); 
 	}
 	
@@ -479,28 +543,28 @@ public class OperationRestController {
 		System.out.println(dateOp[0]);
 		System.out.println(num);
 		System.out.println(dateOp[1]);
-		return operationRepository.findBySuprIsFalseAndDateOpBetweenAndCompte_Id(dateOp[0], dateOp[1], num);
+		return operationRepository.findBySuprIsFalseAndCompteAtoutIsFalseAndDateOpBetweenAndCompte_Id(dateOp[0], dateOp[1], num);
 	}
 	
-	@GetMapping(value="/mes-operation-by-date-between/{dateOp}")
-	public List<Operation> getMesOperationByDateBetween(@PathVariable Date[] dateOp){
+	@GetMapping(value="/mes-operation-by-date-between/{dateOp}/{num}")
+	public List<Operation> getMesOperationByDateBetween(@PathVariable Date[] dateOp, @PathVariable Long num){
 		System.out.println(dateOp);
-		return operationRepository.findBySuprIsFalseAndDateOpBetween(dateOp[0], dateOp[1]);
+		return operationRepository.findBySuprIsFalseAndCompteAtoutIsFalseAndDateOpBetweenAndCompte_Id(dateOp[0], dateOp[1], num);
 	}
 	
-	@GetMapping(value="/mes-operation-by-date/{dateOp}")
-	public List<Operation> getMesOperationByDate(@PathVariable Date dateOp){
-		return operationRepository.findBySuprIsFalseAndDateOp(dateOp);
+	@GetMapping(value="/mes-operation-by-date/{dateOp}/{num}")
+	public List<Operation> getMesOperationByDate(@PathVariable Date dateOp, @PathVariable Long num){
+		return operationRepository.findBySuprIsFalseAndCompteAtoutIsFalseAndDateOpAndCompte_Id(dateOp, num);
 	}
 	
-	@GetMapping(value="/mes-operation-by-date-greater-than/{dateOp}")
-	public List<Operation> getMesOperationByDateGreaterThan(@PathVariable Date dateOp){
-		return operationRepository.findBySuprIsFalseAndDateOpGreaterThan(dateOp);
+	@GetMapping(value="/mes-operation-by-date-greater-than/{dateOp}/{num}")
+	public List<Operation> getMesOperationByDateGreaterThan(@PathVariable Date dateOp, @PathVariable Long num){
+		return operationRepository.findBySuprIsFalseAndCompteAtoutIsFalseAndDateOpGreaterThanAndCompte_Id(dateOp, num);
 	}
 	
-	@GetMapping(value="/mes-operation-by-date-less-than/{dateOp}")
-	public List<Operation> getMesOperationByDateLessThan(@PathVariable Date dateOp){
-		return operationRepository.findBySuprIsFalseAndDateOpLessThan(dateOp);
+	@GetMapping(value="/mes-operation-by-date-less-than/{dateOp}/{num}")
+	public List<Operation> getMesOperationByDateLessThan(@PathVariable Date dateOp, @PathVariable Long num){
+		return operationRepository.findBySuprIsFalseAndCompteAtoutIsFalseAndDateOpLessThanAndCompte_Id(dateOp, num);
 	}
 	
 	

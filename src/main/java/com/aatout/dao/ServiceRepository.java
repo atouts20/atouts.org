@@ -28,7 +28,25 @@ public interface ServiceRepository extends JpaRepository<Services, Long> {
 	public Page<Services> chercherService(@Param("x")String mc, Pageable pageable);
 	
 	public Services findBySuprIsFalseAndActiveIsTrueAndId(Long id);
+	
+	//public List<Services> findBySuprIsFalseAndActiveIsTrueAndProprietaireUser_Id(Long id);
+	
+	
+	
+	//public Page<Services> findBySuprIsFalseAndActiveIsTrueAndProprietaireUser_IdAndNomLikeIgnoreCase(Pageable pageable,long proprietaires, String nom);
 
+	public Page<Services> findBySuprIsFalseAndActiveIsTrueAndNomLikeIgnoreCase(Pageable pageable, String nom);
+	
+	
+	
+	
+	
+	@Query("from Services c where c.supr=false and c.active=true and c.nom like :x and c.proprietaire in (SELECT groupe FROM Grouper r where r.appUser.id =:id)")
+	public Page<Services> listServiceByUser(Pageable pageable, @Param("x")String mc, @Param("id")Long id);
+	
+	
+	
+	
 	public List<Services> findBySuprIsFalseAndActiveIsFalseAndAccepterIsFalseAndProprietaire_Id(long proprietaire);
 
 	public List<Services> findBySuprIsFalseAndActiveIsFalseAndAccepterIsTrueAndProprietaire_Id(long proprietaire);
